@@ -8,7 +8,7 @@ export const environment = {
     fontawesome: 'Font Awesome 6.4.2',
   },
   apiHost: 'https://api.withcodeexample.com/',
-  baseUrl: "http://localhost:4200",
+  baseUrl: "https://tchnws.netlify.app",
   endPoint: "https://appwrite.withcodeexample.com/v1",
   projectId: "tech-news",
   database: {
