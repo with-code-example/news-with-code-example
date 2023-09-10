@@ -6,6 +6,7 @@ import { AuthService } from '../../auth.service';
 import { Router } from '@angular/router';
 import { ConfigService } from 'src/app/services/config.service';
 import { ApiService } from 'src/app/services/api.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -49,8 +50,8 @@ export class LoginComponent {
       .account()
       .createOAuth2Session(
         'google',
-        'http://localhost:4200/user/my-feeds',
-        'http://localhost:4200/login'
+        environment.baseUrl + '/user/my-feeds',
+        environment.baseUrl + '/login'
       );
   }
 }
