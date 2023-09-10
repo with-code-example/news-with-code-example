@@ -5,7 +5,7 @@ import { MyFeedsComponent } from './components/my-feeds/my-feeds.component';
 import { UserRoutingModule } from './user.routing.module';
 import { FeedCardComponent } from './components/feed-card/feed-card.component';
 import { MatModule } from 'src/app/mat.module';
-import { StripHtmlPipe, ShortenPipe } from 'src/app/helpers/pipe';
+import { HelperdModule } from 'src/app/helpers/helper.module';
 import { AddFeedComponent } from './components/add-feed/add-feed.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
@@ -16,8 +16,6 @@ import { FormlyModule } from '@ngx-formly/core';
   declarations: [
     MyFeedsComponent,
     FeedCardComponent,
-    StripHtmlPipe,
-    ShortenPipe,
     AddFeedComponent
   ],
   imports: [
@@ -26,7 +24,8 @@ import { FormlyModule } from '@ngx-formly/core';
     MatModule,
     ReactiveFormsModule,
     FormlyMaterialModule,
-    FormlyModule
+    FormlyModule,
+    HelperdModule
   ],
   exports: [
     

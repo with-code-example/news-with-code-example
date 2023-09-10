@@ -17,4 +17,4 @@ export class StripHtmlPipe implements PipeTransform {
     transform(val:string , length?: any): string {
       return (val.length>length)? val.slice(0, length)+'...':val
     }
-  }
+}
