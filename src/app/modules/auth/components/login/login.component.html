@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-3">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <formly-form [form]="form" [fields]="formFields"></formly-form>
+            
+                <div align="end">
+                  Don't have an account ?
+                  <a mat-button routerLink="/auth/sign-up">Sign Up</a> &nbsp;
+                  <button mat-raised-button color="accent" type="submit">
+                    Submit
+                  </button>
+                  
+                </div>
+                <div class="text-center">
+                  OR
+                </div>
+                <div class="text-center">
+                  <button mat-raised-button color="primary" (click)="googleLogin()">Google</button>
+                </div>
+              </form>
+        </div>
+    </div>
+</div>

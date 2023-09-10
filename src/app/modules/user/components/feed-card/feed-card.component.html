@@ -1,0 +1,40 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h3><b>{{ item.title | shorten : 60 }}</b></h3>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="card-content">
+      <ng-container *ngIf="item.image">
+        <div class="feed-description">
+            <img src="{{ item.image }}" alt="{{ item.title }}" class="card-image" />
+        <p innerHTML="{{ item.short_description | shorten : 60 }}"></p>
+        </div>
+      </ng-container>
+      
+      <p
+        class="feed-description"
+        *ngIf="!item.image"
+        innerHTML="{{ item.short_description | shorten : 250 }}"
+      ></p>
+
+      <small
+        ><span *ngFor="let cat of item.categories">
+          #{{ cat | titlecase }},
+        </span></small
+      >
+    </div>
+  </mat-card-content>
+  <mat-card-footer>
+    <div class="text-center">
+      <button mat-icon-button><mat-icon>thumb_up</mat-icon></button>
+      <button mat-icon-button
+        (click)="navigateTo('/read/' + item.$id, item)"
+        ><mat-icon>read_more</mat-icon>
+    </button>
+    <button mat-icon-button><mat-icon>share</mat-icon></button>
+    <button mat-icon-button><mat-icon>bookmark</mat-icon></button>
+    </div>
+  </mat-card-footer>
+</mat-card>

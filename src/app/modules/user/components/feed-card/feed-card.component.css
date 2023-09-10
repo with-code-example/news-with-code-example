@@ -1,0 +1,18 @@
+.card-content img{
+    width: 100%;
+    border-radius: 5px;
+    object-fit: cover;
+    height: 150px;
+}
+.mat-mdc-card-title{
+    height: 66px;
+    overflow: hidden;
+}
+.card-content{
+    height: 250px;
+    overflow: hidden;
+}
+.feed-description{
+    height: 200px;
+    overflow: hidden;
+}

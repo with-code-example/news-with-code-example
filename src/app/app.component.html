@@ -1,0 +1,80 @@
+<div class="sidenav-cont" [class.is-mobile]="mobileQuery.matches">
+  <mat-toolbar color="primary" class="toolbar">
+    <button mat-icon-button (click)="toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1 class="app-name">Tech News</h1>
+
+    <button mat-button routerLink="/">
+      Home
+    </button>
+
+    <span class="spacer"></span>
+      <button mat-icon-button routerLink="/logout">
+        <mat-icon>logout</mat-icon>
+      </button>
+
+      <button mat-icon-button (click)="changeColor()">
+        <mat-icon>
+          {{ colorScheme }}_mode
+        </mat-icon>
+      </button>
+  </mat-toolbar>
+
+  <mat-sidenav-container
+    class="sidenav-container"
+    [style.marginTop.px]="mobileQuery.matches ? 56 : 0"
+  >
+    <mat-sidenav
+      [mode]="sideNavMode"
+      opened
+      *ngIf="opened"
+      (closedStart)="sidenav()"
+    >
+      <mat-nav-list>
+        <ng-container *ngFor="let item of sidenavItems">
+          <a mat-list-item *ngIf="!hasChildren(item)" [routerLink]="item.route">
+            <div class="icon-container">
+              &nbsp; &nbsp; <mat-icon>{{ item.icon }}</mat-icon>
+              <div>{{ item.title }}</div>
+            </div>
+          </a>
+
+          <ng-container *ngIf="hasChildren(item)">
+            <a mat-list-item [routerLink]="item.route">
+              <div class="icon-container">
+                &nbsp; &nbsp; <mat-icon>{{ item.icon }}</mat-icon>
+                <div>{{ item.title }}</div>
+              </div>
+            </a>
+
+            <ng-container *ngFor="let child of item.children">
+              <a mat-list-item *ngIf="child.route" [routerLink]="child.route">
+                <div class="icon-container">
+                  &nbsp; &nbsp; &nbsp; <mat-icon>{{ child.icon }}</mat-icon>
+                  <div>{{ child.title }}</div>
+                </div>
+              </a>
+
+              <a
+                mat-list-item
+                *ngIf="child.click"
+                (click)="navigateTo(child.click.route, child.click.feed)"
+              >
+                <div class="icon-container">
+                  &nbsp; &nbsp; &nbsp; <mat-icon>{{ child.icon }}</mat-icon>
+                  <div>{{ child.title }}</div>
+                </div>
+              </a>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <br />
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
