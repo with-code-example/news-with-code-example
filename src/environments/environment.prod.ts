@@ -8,16 +8,17 @@ export const environment = {
     fontawesome: 'Font Awesome 6.4.2',
   },
   apiHost: 'https://api.withcodeexample.com/',
-    endPoint: "https://appwrite.withcodeexample.com/v1",
-    projectId: "tech-news",
-    database: {
-        "tech_news" : "tech_news_db",
-        collection: {
-            "feeds": "feeds",
-            "posts": "posts"
-        }
-    },
-    buckets: {
-        "images": "images"
-    }
+  baseUrl: "http://localhost:4200",
+  endPoint: "https://appwrite.withcodeexample.com/v1",
+  projectId: "tech-news",
+  database: {
+      "tech_news" : "tech_news_db",
+      collection: {
+          "feeds": "feeds",
+          "posts": "posts"
+      }
+  },
+  buckets: {
+      "images": "images"
+  }
 };
