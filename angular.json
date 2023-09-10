@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular-starter": {
+    "tech-news": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/angular-starter/browser",
+            "outputPath": "dist/tech-news/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -22,7 +22,12 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "_redirects",
+                "input": "src",
+                "output": "/"
+              }
             ],
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
@@ -72,10 +77,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "angular-starter:build:production"
+              "browserTarget": "tech-news:build:production"
             },
             "development": {
-              "browserTarget": "angular-starter:build:development"
+              "browserTarget": "tech-news:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,7 +88,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular-starter:build"
+            "browserTarget": "tech-news:build"
           }
         },
         "test": {
@@ -117,7 +122,7 @@
         "server": {
           "builder": "@angular-devkit/build-angular:server",
           "options": {
-            "outputPath": "dist/angular-starter/server",
+            "outputPath": "dist/tech-news/server",
             "main": "server.ts",
             "tsConfig": "tsconfig.server.json"
           },
@@ -145,12 +150,12 @@
           "builder": "@nguniversal/builders:ssr-dev-server",
           "configurations": {
             "development": {
-              "browserTarget": "angular-starter:build:development",
-              "serverTarget": "angular-starter:server:development"
+              "browserTarget": "tech-news:build:development",
+              "serverTarget": "tech-news:server:development"
             },
             "production": {
-              "browserTarget": "angular-starter:build:production",
-              "serverTarget": "angular-starter:server:production"
+              "browserTarget": "tech-news:build:production",
+              "serverTarget": "tech-news:server:production"
             }
           },
           "defaultConfiguration": "development"
@@ -164,12 +169,12 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "angular-starter:build:production",
-              "serverTarget": "angular-starter:server:production"
+              "browserTarget": "tech-news:build:production",
+              "serverTarget": "tech-news:server:production"
             },
             "development": {
-              "browserTarget": "angular-starter:build:development",
-              "serverTarget": "angular-starter:server:development"
+              "browserTarget": "tech-news:build:development",
+              "serverTarget": "tech-news:server:development"
             }
           },
           "defaultConfiguration": "production"

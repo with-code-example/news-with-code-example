@@ -10,10 +10,10 @@
     "coverage": "ng test --no-watch --code-coverage",
     "serve": "node server",
     "lint": "ng lint",
-    "dev:ssr": "ng run angular-starter:serve-ssr",
-    "serve:ssr": "node dist/angular-starter/server/main.js",
-    "build:ssr": "ng build && ng run angular-starter:server",
-    "prerender": "ng run angular-starter:prerender"
+    "dev:ssr": "ng run tech-news:serve-ssr",
+    "serve:ssr": "node dist/tech-news/server/main.js",
+    "build:ssr": "ng build && ng run tech-news:server",
+    "prerender": "ng run tech-news:prerender"
   },
   "private": true,
   "dependencies": {
