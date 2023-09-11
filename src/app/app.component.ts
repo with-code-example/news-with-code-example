@@ -1,4 +1,4 @@
-import { Component, OnInit,OnDestroy, ChangeDetectorRef} from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -7,17 +7,14 @@ import { Router } from '@angular/router';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatDrawerMode } from '@angular/material/sidenav';
 
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-
-  title = 'angular-ssr';
-  footerUrl = 'https://www.ganatan.com/';
-  footerLink = 'www.ganatan.com';
+  title = 'Tech News';
+  public isMobile: boolean = false
 
   mobileQuery: MediaQueryList;
   // fillerNav = Array.from({length: 50}, (_, i) => `Nav Item ${i + 1}`);
@@ -25,13 +22,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public sidenavItems: any[] = [];
   public config: any = { sidenav: true };
-  public children: any[] = []
-  public opened = true
-  public colorScheme: any = ""
-  public sideNavMode = <MatDrawerMode> "side"
+  public children: any[] = [];
+  public opened = true;
+  public colorScheme: any = '';
+  public sideNavMode = <MatDrawerMode>'side';
   constructor(
     @Inject(PLATFORM_ID) private platformId: object,
-    changeDetectorRef: ChangeDetectorRef, 
+    changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher,
     private configService: ConfigService,
     private router: Router,
@@ -43,47 +40,46 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
     if (isPlatformBrowser(this.platformId)) {
       const navMain = document.getElementById('navbarCollapse');
       if (navMain) {
         navMain.onclick = function onClick() {
           if (navMain) {
-            navMain.classList.remove("show");
+            navMain.classList.remove('show');
           }
-        }
+        };
       }
     }
 
-   
-
-
-      if(localStorage.getItem('theme')){
-        this.colorScheme = localStorage.getItem('theme')
-      }else{
-        if (window.matchMedia('(prefers-color-scheme)').media !== 'not all') {
-          this.colorScheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        } else {
-          this.colorScheme = 'dark';
-        }
-        localStorage.setItem('theme', this.colorScheme)
+    if (localStorage.getItem('theme')) {
+      this.colorScheme = localStorage.getItem('theme');
+    } else {
+      if (window.matchMedia('(prefers-color-scheme)').media !== 'not all') {
+        this.colorScheme = window.matchMedia('(prefers-color-scheme: dark)')
+          .matches
+          ? 'dark'
+          : 'light';
+      } else {
+        this.colorScheme = 'dark';
       }
-      this.configService.sidenavData()
-      this.configService.currentSidenavData.subscribe((data: any) => {
-        this.sidenavItems = data
-      })
-    
-
-  } 
+      localStorage.setItem('theme', this.colorScheme);
+    }
+    this.configService.sidenavData();
+    this.configService.currentSidenavData.subscribe((data: any) => {
+      this.sidenavItems = data;
+    });
+  }
 
   ngAfterViewInit() {
-    this.observer.observe(["(max-width: 1024px)"]).subscribe((res) => {
+    this.observer.observe(['(max-width: 1024px)']).subscribe((res) => {
       if (res.matches) {
-        this.sideNavMode = "over";
-        this.opened = false
+        this.isMobile = true
+        this.sideNavMode = 'over';
+        this.opened = false;
       } else {
-        this.sideNavMode = "side";
-        this.opened = true
+        this.isMobile = false
+        this.sideNavMode = 'side';
+        this.opened = true;
       }
     });
   }
@@ -91,17 +87,17 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
-  toggle(){
-    this.opened = !this.opened
+  toggle() {
+    this.opened = !this.opened;
   }
 
-  changeColor(){
-    if(this.colorScheme == 'dark'){
-      localStorage.setItem('theme', 'light')
-      this.colorScheme = 'light'
-    }else{
-      localStorage.setItem('theme', 'dark')
-      this.colorScheme = 'dark'
+  changeColor() {
+    if (this.colorScheme == 'dark') {
+      localStorage.setItem('theme', 'light');
+      this.colorScheme = 'light';
+    } else {
+      localStorage.setItem('theme', 'dark');
+      this.colorScheme = 'dark';
     }
   }
 
@@ -109,13 +105,15 @@ export class AppComponent implements OnInit, OnDestroy {
     return item && item.children && item.children.length > 0;
   }
 
-  sidenav(){
+  sidenav() {
     // this.configService.changeData({sidenav: !this.config.sidenav});
-    this.opened = !this.opened
+    this.opened = !this.opened;
   }
 
-  navigateTo(route: string, feed: any) {
-    this.router.navigate([route], {state: {data: {feed}}});
+  navigateTo(route: string, feed: any = '') {
+    if(this.isMobile){
+      this.toggle()
+    }
+    this.router.navigate([route], { state: { data: { feed } } });
   }
-
 }

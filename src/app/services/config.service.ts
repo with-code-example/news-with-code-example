@@ -66,6 +66,8 @@ export class ConfigService {
             this.fetchAndUpdateSidenav('')
           })
       }
+    }else{
+      this.fetchAndUpdateSidenav(userId)
     }
   }
 

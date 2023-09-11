@@ -10,15 +10,11 @@
     </button>
 
     <span class="spacer"></span>
-      <button mat-icon-button routerLink="/logout">
-        <mat-icon>logout</mat-icon>
-      </button>
-
-      <button mat-icon-button (click)="changeColor()">
-        <mat-icon>
-          {{ colorScheme }}_mode
-        </mat-icon>
-      </button>
+    <button mat-icon-button (click)="changeColor()">
+      <mat-icon>
+        {{ colorScheme }}_mode
+      </mat-icon>
+    </button>
   </mat-toolbar>
 
   <mat-sidenav-container
@@ -33,7 +29,7 @@
     >
       <mat-nav-list>
         <ng-container *ngFor="let item of sidenavItems">
-          <a mat-list-item *ngIf="!hasChildren(item)" [routerLink]="item.route">
+          <a mat-list-item *ngIf="!hasChildren(item)" (click)="navigateTo(item.route)">
             <div class="icon-container">
               &nbsp; &nbsp; <mat-icon>{{ item.icon }}</mat-icon>
               <div>{{ item.title }}</div>
@@ -49,7 +45,7 @@
             </a>
 
             <ng-container *ngFor="let child of item.children">
-              <a mat-list-item *ngIf="child.route" [routerLink]="child.route">
+              <a mat-list-item *ngIf="child.route" (click)="navigateTo(child.route)">
                 <div class="icon-container">
                   &nbsp; &nbsp; &nbsp; <mat-icon>{{ child.icon }}</mat-icon>
                   <div>{{ child.title }}</div>
@@ -58,7 +54,6 @@
 
               <a
                 mat-list-item
-                *ngIf="child.click"
                 (click)="navigateTo(child.click.route, child.click.feed)"
               >
                 <div class="icon-container">
@@ -66,6 +61,7 @@
                   <div>{{ child.title }}</div>
                 </div>
               </a>
+
             </ng-container>
           </ng-container>
         </ng-container>

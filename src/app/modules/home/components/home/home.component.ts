@@ -45,7 +45,6 @@ export class HomeComponent implements OnInit {
         (response: any) => {
           response.documents.forEach((resp: any) => {
             this.feed_links.push(resp.url);
-            console.log(resp.url)
           });
           if(this.feed_links.length > 0){
             this.getFeeds();
