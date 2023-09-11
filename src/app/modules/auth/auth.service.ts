@@ -33,7 +33,7 @@ export class AuthService {
   setLocalStorage(
     key: string,
     value: string,
-    expirationInMinutes: number = 60
+    expirationInMinutes: number = (60*24)
   ) {
     if (typeof window !== 'undefined') {
       const now = new Date();
@@ -75,7 +75,6 @@ export class AuthService {
       .account()
       .getSession('current')
       .then((isAuthenticated) => {
-        console.log(isAuthenticated)
         if (!isAuthenticated) {
           this.configService.changeData({ sidenav: false });
           this.router.navigate(['/auth/login']);

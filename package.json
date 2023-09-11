@@ -3,7 +3,7 @@
   "version": "16.2.4",
   "scripts": {
     "ng": "ng",
-    "start": "nx serve --port 4200",
+    "start": "nx serve",
     "build": "nx build",
     "watch": "nx build --watch --configuration development",
     "test": "nx test",

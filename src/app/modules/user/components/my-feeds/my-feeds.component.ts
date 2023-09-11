@@ -138,8 +138,6 @@ export class MyFeedsComponent {
             this.total = response.total
             response.documents.forEach((feed: any) => {
               this.feeds.push(feed);
-              // console.log(this.feeds.length)
-              
             });
             
           }

@@ -26,10 +26,7 @@ export class HomeComponent implements OnInit {
   constructor(private apiService: ApiService){}
   
   ngOnInit(): void {
-
     this.getAllFeeds()
-
-
   }
 
   getAllFeeds(){
@@ -46,7 +43,6 @@ export class HomeComponent implements OnInit {
       )
       .then(
         (response: any) => {
-          console.log(response)
           response.documents.forEach((resp: any) => {
             this.feed_links.push(resp.url);
             console.log(resp.url)
