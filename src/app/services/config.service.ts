@@ -50,18 +50,39 @@ export class ConfigService {
       if (user) {
         user = JSON.parse(user);
         userId = user.userId;
+        this.fetchAndUpdateSidenav(userId)
+      }else{
+        this.apiService
+          .account()
+          .getSession('current')
+          .then((user) => {
+            if (user) {
+              userId = user.userId
+              this.fetchAndUpdateSidenav(userId)
+            }else{
+              this.fetchAndUpdateSidenav('')
+            }
+          }, (err: any) => {
+            this.fetchAndUpdateSidenav('')
+          })
       }
     }
-    this.children = [];
+  }
 
-    console.log(userId);
-    if (userId) {
+
+  fetchAndUpdateSidenav(userId: string){
+    this.children = [];
+    if (userId != '') {
       this.apiService
         .db()
         .listDocuments(
           environment.database.tech_news,
           environment.database.collection.feeds,
-          [Query.equal('user_id', userId), Query.orderDesc('$createdAt')]
+          [
+            Query.select(['$id','title', 'url']),
+            Query.equal('user_id', userId), 
+            Query.orderDesc('$createdAt')
+          ]
         )
         .then(
           (response: any) => {
