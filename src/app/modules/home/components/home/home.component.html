@@ -1,34 +1,37 @@
 <div class="container-fluid">
-    <div class="row">
-     <div class="col-6">
-         <button mat-button >{{ total+"/"+feeds.length }}</button>
-     </div>
-     <div class="col-6" align="end">
-         <mat-form-field>
-             <mat-label>Tags</mat-label>
-             <mat-select [formControl]="tagsForm" multiple (selectionChange)="filterTags()">
-                 <mat-option *ngFor="let tag of tags" [value]="tag">{{tag}}</mat-option>
-             </mat-select>
-         </mat-form-field>
-     </div>
+  <div class="row">
+    <div class="col-12" align="end">
+      <mat-form-field>
+        <mat-label>Tags</mat-label>
+        <mat-select
+          [formControl]="tagsForm"
+          multiple
+          (selectionChange)="filterTags()"
+        >
+          <mat-option *ngFor="let tag of tags" [value]="tag">{{
+            tag
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
- 
-     <!-- infiniteScroll
+  </div>
+
+  <!-- infiniteScroll
      [infiniteScrollDistance]="0"
      [infiniteScrollThrottle]="150"
      (scrolled)="onScroll()"
      [alwaysCallback]=true -->
- 
-    <div class="row">
-        <div class="feed-card col-md-3 col-sm-6" *ngFor="let feed of feeds">
-            <home-feed-card [item]="feed"></home-feed-card>
-        </div>
+
+  <div class="row">
+    <div class="feed-card col-md-3 col-sm-6" *ngFor="let feed of feeds">
+      <home-feed-card [item]="feed"></home-feed-card>
     </div>
-    <p class="text-center" *ngIf="total > ((page+1) * limit)">
-        <button mat-raised-button (click)="pagination(page + 1)" class="btn">{{ loadMoreText }}</button>
-        <br><br><br><br>
-    </p>
-     <ng-container *ngIf="loading">Loading</ng-container>    
- </div>
- 
- 
+  </div>
+  <p class="text-center" *ngIf="total > (page + 1) * limit">
+    <button mat-raised-button (click)="pagination(page + 1)" class="btn">
+      {{ loadMoreText }}
+    </button>
+    <br /><br /><br /><br />
+  </p>
+  <ng-container *ngIf="loading">Loading</ng-container>
+</div>
