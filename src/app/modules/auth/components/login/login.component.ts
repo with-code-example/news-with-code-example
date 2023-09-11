@@ -54,4 +54,14 @@ export class LoginComponent {
         environment.baseUrl + '/login'
       );
   }
+
+  githubLogin() {
+    this.apiService
+      .account()
+      .createOAuth2Session(
+        'github',
+        environment.baseUrl + '/user/my-feeds',
+        environment.baseUrl + '/login'
+      );
+  }
 }
