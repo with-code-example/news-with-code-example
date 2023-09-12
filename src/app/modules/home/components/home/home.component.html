@@ -1,6 +1,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-12" align="end">
+      <!-- {{ tags | json }} -->
       <mat-form-field>
         <mat-label>Tags</mat-label>
         <mat-select
@@ -8,8 +9,8 @@
           multiple
           (selectionChange)="filterTags()"
         >
-          <mat-option *ngFor="let tag of tags" [value]="tag">{{
-            tag
+          <mat-option *ngFor="let tag of tags" [value]="tag.title">{{
+            tag.title | titlecase
           }}</mat-option>
         </mat-select>
       </mat-form-field>

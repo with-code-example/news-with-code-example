@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
   public total: number = 0
   public feeds: any = []
   tagsForm = new FormControl('');
-  public tags: string[] = ['javascript', 'python'];
+  public tags: any[] = [];
   public feed_links: any = []
 
 
@@ -27,6 +27,25 @@ export class HomeComponent implements OnInit {
   
   ngOnInit(): void {
     this.getAllFeeds()
+    this.fetchAllTags()
+  }
+
+  fetchAllTags(){
+    this.apiService.db().listDocuments(
+      environment.database.tech_news,
+      environment.database.collection.tags,
+      [
+        Query.notEqual('title', ''),
+        Query.orderDesc('post_count'),
+        Query.limit(10)
+      ]
+    ).then((resp: any) => {
+      if (resp.total > 0){
+        this.tags = resp.documents
+      }
+    }, err => {
+
+    })
   }
 
   getAllFeeds(){

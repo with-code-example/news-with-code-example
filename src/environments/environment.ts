@@ -14,7 +14,8 @@ export const environment = {
       "tech_news" : "tech_news_db",
       collection: {
           "feeds": "feeds",
-          "posts": "posts"
+          "posts": "posts",
+          "tags": "tags"
       }
   },
   buckets: {
