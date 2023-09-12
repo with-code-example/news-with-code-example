@@ -23,7 +23,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public sidenavItems: any[] = [];
   public config: any = { sidenav: true };
   public children: any[] = [];
-  public opened = true;
+  public opened = false;
   public colorScheme: any = '';
   public sideNavMode = <MatDrawerMode>'side';
   constructor(

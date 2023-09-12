@@ -90,7 +90,7 @@ export class AddFeedComponent {
                             .functions()
                             .createExecution(
                               '64fc182d8c1515d726d5',
-                              JSON.stringify({ url: data.url }),
+                              JSON.stringify({ url: data.url, userId: userId}),
                               true,
                               '/',
                               'GET'
@@ -109,7 +109,7 @@ export class AddFeedComponent {
                               }
                             );
 
-                          this.router.navigate(['/user/feed/' + response.$id]);
+                          this.router.navigate(['/user/feeds/' + response.$id]);
                         } else {
                           this.alertService.openSnackBar(
                             'Error in adding new source, Please check your feed url',
