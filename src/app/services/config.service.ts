@@ -75,39 +75,39 @@ export class ConfigService {
   fetchAndUpdateSidenav(userId: string){
     this.children = [];
     if (userId != '') {
-      this.apiService
-        .db()
-        .listDocuments(
-          environment.database.tech_news,
-          environment.database.collection.feeds,
-          [
-            Query.select(['$id','title', 'url']),
-            Query.equal('user_id', userId), 
-            Query.orderDesc('$createdAt')
-          ]
-        )
-        .then(
-          (response: any) => {
-            if (response.total > 0) {
-              let feeds = response.documents;
+      // this.apiService
+      //   .db()
+      //   .listDocuments(
+      //     environment.database.tech_news,
+      //     environment.database.collection.feeds,
+      //     [
+      //       Query.select(['$id','title', 'url']),
+      //       Query.equal('user_id', userId), 
+      //       Query.orderDesc('$createdAt')
+      //     ]
+      //   )
+      //   .then(
+      //     (response: any) => {
+      //       if (response.total > 0) {
+      //         let feeds = response.documents;
 
-              feeds.forEach((feed: any) => {
-                let feedData = {
-                  title: feed.title,
-                  click: {
-                    route: '/user/my-feeds/' + feed.$id,
-                    feed: feed,
-                  },
-                  icon: 'chevron_right',
-                };
-                this.children.push(feedData);
-              });
-            }
-          },
-          (err: any) => {
-            console.error(err);
-          }
-        );
+      //         feeds.forEach((feed: any) => {
+      //           let feedData = {
+      //             title: feed.title,
+      //             click: {
+      //               route: '/user/my-feeds/' + feed.$id,
+      //               feed: feed,
+      //             },
+      //             icon: 'chevron_right',
+      //           };
+      //           this.children.push(feedData);
+      //         });
+      //       }
+      //     },
+      //     (err: any) => {
+      //       console.error(err);
+      //     }
+      //   );
 
       this.sidenavItems = [
         {
@@ -124,7 +124,6 @@ export class ConfigService {
           title: 'My Feeds',
           icon: 'list',
           route: '/user/my-feeds',
-          children: this.children,
         },
         {
           title: 'Logout',
