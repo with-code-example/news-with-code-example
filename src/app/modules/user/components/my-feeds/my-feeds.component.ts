@@ -123,7 +123,7 @@ export class MyFeedsComponent {
     }
     this.queries.push(
       Query.equal('feed_link', feed_links),
-      Query.notEqual('short_description', ""),
+      Query.isNotNull('short_description'),
       Query.limit(this.limit),
       Query.offset(this.page * this.limit),
       Query.orderDesc('$createdAt'),
@@ -182,6 +182,7 @@ export class MyFeedsComponent {
 
   pagination(page: number) {
     this.page = page;
+    console.log(this.page)
     this.getFeeds(this.urls);
   }
 
