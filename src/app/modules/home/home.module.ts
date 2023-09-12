@@ -6,6 +6,8 @@ import { MatModule } from 'src/app/mat.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FeedCardComponent } from './components/feed-card/feed-card.component';
 import { HelperdModule } from 'src/app/helpers/helper.module';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+
 @NgModule({
   declarations: [
     HomeComponent,
@@ -16,7 +18,8 @@ import { HelperdModule } from 'src/app/helpers/helper.module';
     HomeRoutingModule,
     MatModule,
     ReactiveFormsModule,
-    HelperdModule
+    HelperdModule,
+    InfiniteScrollModule
   ]
 })
 export class HomeModule { }

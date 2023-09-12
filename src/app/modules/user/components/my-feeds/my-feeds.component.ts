@@ -122,8 +122,8 @@ export class MyFeedsComponent {
       Query.notEqual('short_description', ""),
       Query.limit(this.limit),
       Query.offset(this.page * this.limit),
-      Query.orderDesc('$createdAt'),
-      Query.select(['title','image','short_description','categories','$id','link'])
+      Query.orderDesc('published_at'),
+      Query.select(['title','image','short_description','categories','$id','link',"published_at"])
     )
    
     this.apiService
@@ -176,8 +176,8 @@ export class MyFeedsComponent {
     }
   }
 
-  pagination(page: number) {
-    this.page = page;
+  pagination() {
+    this.page = this.page + 1;
     console.log(this.page)
     this.getFeeds();
   }

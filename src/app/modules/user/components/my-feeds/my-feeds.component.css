@@ -5,3 +5,7 @@ button.mdc-button.active{
     background: #000;
     color: #fff;
 }
+.infinite-scroll{
+    height: 100vh;
+    overflow: scroll;
+}
