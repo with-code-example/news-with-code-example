@@ -31,7 +31,9 @@ export class MyFeedsComponent {
   public tags: string[] = ['javascript', 'python'];
   public feed_links: any[] = []
   public fetchTags: any = []
-  public  queries: any
+  public queries: any
+  public allFeeds: any 
+  public currentFeed: string = ""
 
   constructor(
     private apiService: ApiService,
@@ -64,7 +66,9 @@ export class MyFeedsComponent {
       this.state = this.route.paramMap.pipe(map(() => window.history.state))
       this.state.subscribe((routeData: any) => {
         if(routeData.data && routeData.data.feed){
+          this.allFeeds = routeData.data.allFeeds;
           this.getFeeds([routeData.data.feed.url]);
+          this.currentFeed = routeData.data.feed.$id
           // this.feed.url = routeData.data.feed.url
           this.configService.changeData({ title: routeData.data.feed.title });
         }else{
@@ -93,6 +97,7 @@ export class MyFeedsComponent {
       )
       .then(
         (response: any) => {
+          this.allFeeds = response.documents
           response.documents.forEach((resp: any) => {
             this.urls.push(resp.url);
           });
@@ -193,6 +198,10 @@ export class MyFeedsComponent {
     
     this.fetchTags = this.tagsForm.value
     this.getFeeds(this.feed_links)
+  }
+
+  navigateTo(route: string, feed: any = '') {
+    this.router.navigate([route], { state: { data: { feed, "allFeeds": this.allFeeds } } });
   }
 
   funcTest(){
