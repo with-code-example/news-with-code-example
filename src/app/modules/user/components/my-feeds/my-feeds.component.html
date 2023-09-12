@@ -1,4 +1,10 @@
-<div class="container-fluid">
+<div class="container-fluid infinite-scroll" 
+  infinite-scroll
+  [infiniteScrollDistance]="1"
+  [infiniteScrollThrottle]="300"
+  (scrolled)="pagination()"
+  [scrollWindow]="false"
+>
   <div class="row">
     <div class="col-12" align="end">
       <p>
@@ -24,7 +30,7 @@
     </div>
 
     <p class="text-center" *ngIf="total > (page + 1) * limit">
-      <button mat-raised-button (click)="pagination(page + 1)" class="btn">
+      <button mat-raised-button (click)="pagination()" class="btn">
         {{ loadMoreText }}
       </button>
       <br /><br /><br /><br />

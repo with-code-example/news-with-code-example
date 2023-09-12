@@ -11,6 +11,7 @@ import { AddFeedComponent } from './components/add-feed/add-feed.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyMaterialModule } from '@ngx-formly/material';
 import { FormlyModule } from '@ngx-formly/core';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { FormlyModule } from '@ngx-formly/core';
     ReactiveFormsModule,
     FormlyMaterialModule,
     FormlyModule,
-    HelperdModule
+    HelperdModule,
+    InfiniteScrollModule
   ],
   exports: [
     
