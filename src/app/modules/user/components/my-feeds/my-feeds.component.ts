@@ -67,7 +67,8 @@ export class MyFeedsComponent {
       this.state.subscribe((routeData: any) => {
         if(routeData.data && routeData.data.feed){
           this.allFeeds = routeData.data.allFeeds;
-          this.getFeeds([routeData.data.feed.url]);
+          this.urls.push(routeData.data.feed.url)
+          this.getFeeds();
           this.currentFeed = routeData.data.feed.$id
           // this.feed.url = routeData.data.feed.url
           this.configService.changeData({ title: routeData.data.feed.title });
@@ -76,11 +77,7 @@ export class MyFeedsComponent {
           this.getFeedData()
         }
       })
-
     }
-
-    
-    
   }
 
   getAllFeeds(){
@@ -102,7 +99,7 @@ export class MyFeedsComponent {
             this.urls.push(resp.url);
           });
           if(this.urls.length > 0){
-            this.getFeeds(this.urls);
+            this.getFeeds();
           }
           this.configService.changeData({ title: 'Dashboard' });
         },
@@ -113,8 +110,7 @@ export class MyFeedsComponent {
 
   }
 
-  getFeeds(feed_links: any[]) {
-    this.feed_links = feed_links
+  getFeeds() {
     this.loading = true
     this.loadMoreText = 'Loading...';
     this.queries = []
@@ -122,7 +118,7 @@ export class MyFeedsComponent {
       this.queries.push(Query.search('categories', `'${this.fetchTags}'`))
     }
     this.queries.push(
-      Query.equal('feed_link', feed_links),
+      Query.equal('feed_link', this.urls),
       Query.notEqual('short_description', ""),
       Query.limit(this.limit),
       Query.offset(this.page * this.limit),
@@ -171,7 +167,7 @@ export class MyFeedsComponent {
           (response: any) => {
             this.feed = response;
             this.configService.changeData({ title: this.feed.title });
-            this.getFeeds([this.feed.url]);
+            this.getFeeds();
           },
           (err) => {
             console.error(err);
@@ -182,13 +178,14 @@ export class MyFeedsComponent {
 
   pagination(page: number) {
     this.page = page;
-    this.getFeeds(this.urls);
+    console.log(this.page)
+    this.getFeeds();
   }
 
   onScroll(){
     console.log(this.page)
     this.page++;
-    this.getFeeds(this.urls);
+    this.getFeeds();
     
   }
 
@@ -197,7 +194,7 @@ export class MyFeedsComponent {
     this.feeds = []
     
     this.fetchTags = this.tagsForm.value
-    this.getFeeds(this.feed_links)
+    this.getFeeds()
   }
 
   navigateTo(route: string, feed: any = '') {
