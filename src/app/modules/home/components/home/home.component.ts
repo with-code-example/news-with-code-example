@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { environment } from 'src/environments/environment';
 import { Query } from 'appwrite';
-import {FormControl} from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { ConfigService } from 'src/app/services/config.service';
+import { AuthService } from 'src/app/modules/auth/auth.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -26,7 +27,8 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private apiService: ApiService,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private authService: AuthService
   ){}
   
   ngOnInit(): void {
@@ -130,9 +132,38 @@ export class HomeComponent implements OnInit {
         (response: any) => {
           if (response.total > 0) {
             this.total = response.total
+            var postIds: any[] = []
             response.documents.forEach((feed: any) => {
-              this.feeds.push(feed);              
+              postIds.push(feed.$id)
             });
+            var userId: string = this.authService.userId()
+
+            var likesData : any[]
+            this.apiService.db().listDocuments(
+              environment.database.tech_news,
+              environment.database.collection.likes,
+              [
+                Query.equal('post_id', postIds),
+              ]
+            ).then((resp: any) => {
+              likesData = resp.documents
+
+              response.documents.forEach((feed: any) => {
+                let feedId = feed.$id
+                var likeData = this.processLike(feedId, userId, likesData)
+                let feedData = {...feed, ...likeData}
+                
+  
+                this.feeds.push(feedData);              
+              });
+              console.log(this.feeds)
+
+            })
+            
+            
+            
+
+            
 
             //this.configService.setLocalStorage(`feeds_${this.limit}_${this.page}_${JSON.stringify(this.fetchTags)}`, JSON.stringify(this.feeds), 60)
             
@@ -145,6 +176,25 @@ export class HomeComponent implements OnInit {
           this.loading = false
         }
       );
+  }
+
+  processLike(postId: string, userId: string, likes: any): object{
+    var likeCount = 0
+    var isLiked = false
+    var likeID = ""
+    likes.forEach((like: any) => {
+      
+      if (like.post_id == postId){
+        likeCount++
+      }
+      if (like.post_id == postId && like.user_id == userId){
+        
+        isLiked = true
+        likeID = like.$id
+      }
+    })
+    return {likeCount, isLiked, likeID}
+
   }
 
   pagination() {

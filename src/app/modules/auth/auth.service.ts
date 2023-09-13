@@ -67,6 +67,38 @@ export class AuthService {
     
   }
 
+  userId(): string{
+
+    var userId = ""
+    let user: any = this.getLocalStorage('user');
+    if(user){
+      user = JSON.parse(user);
+      userId = user.userId;
+    }else{
+
+      this.apiService
+      .account()
+      .getSession('current')
+      .then((isAuthenticated) => {
+        if (!isAuthenticated) {
+          
+          userId = "";
+        } else {
+          userId = isAuthenticated.userId
+          this.setLocalStorage('user', JSON.stringify(isAuthenticated))
+          
+        }
+      })
+      .catch(() => {
+        
+        userId = "";
+      });
+
+    }
+
+    return userId
+  }
+
   canActivate(): any {
     if(this.getLocalStorage('user')){
       return true

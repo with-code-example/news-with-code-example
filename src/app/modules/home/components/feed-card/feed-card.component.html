@@ -28,14 +28,18 @@
     </mat-card-content>
     <mat-card-footer>
       <div class="text-center">
-        <button mat-icon-button><mat-icon>thumb_up_off_alt</mat-icon></button>
-        <button mat-icon-button
+        <button mat-button (click)="likeDislikePost(item.$id, item.isLiked, item.likeID)">
+          <mat-icon *ngIf="!item.isLiked">thumb_up_off_alt</mat-icon>
+          <mat-icon *ngIf="item.isLiked">thumb_up_alt</mat-icon>
+          {{ item.likeCount }}
+        </button>
+        <button mat-button
           (click)="navigateTo('/read/' + item.$id, item)"
         ><mat-icon>read_more</mat-icon>
         </button>
-      <button mat-icon-button><mat-icon>share</mat-icon></button>
-      <button mat-icon-button><mat-icon>bookmark_border</mat-icon></button>
-      <a mat-icon-button href="{{ item.link }}" target="_blank" rel="nofollow"><mat-icon>open_in_new</mat-icon></a>
+      <button mat-button><mat-icon>share</mat-icon></button>
+      <button mat-button><mat-icon>bookmark_border</mat-icon></button>
+      <a mat-button href="{{ item.link }}" target="_blank" rel="nofollow"><mat-icon>open_in_new</mat-icon></a>
       </div>
     </mat-card-footer>
   </mat-card>
