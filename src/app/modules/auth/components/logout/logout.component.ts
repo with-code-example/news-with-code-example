@@ -19,19 +19,19 @@ export class LogoutComponent implements OnInit{
   ngOnInit(): void {
     let data: any = this.authService.getLocalStorage('user')
     data = JSON.parse(data)
-    console.log(data)
+    
     if (data){
       let sessionId = data.$id
       this.apiService.account().deleteSession(sessionId).then(function (response) {
-      console.log("remove storage")
-      localStorage.removeItem('user');    
+        
       }, function (error) {
           console.log(error); // Failure
       });
     }
     setTimeout(()=>{
+      localStorage.removeItem('user');    
       this.configService.sidenavData()
-      this.router.navigate(['/auth/login']);
+      this.router.navigate(['/']);
     }, 1000)
     
 

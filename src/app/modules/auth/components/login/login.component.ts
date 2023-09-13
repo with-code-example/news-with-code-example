@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormlyFieldConfig } from '@ngx-formly/core';
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { LOGIN_FORM_MODEL } from '../../forms';
 import { FormGroup } from '@angular/forms';
 import { AuthService } from '../../auth.service';
@@ -16,6 +16,8 @@ import { environment } from 'src/environments/environment';
 export class LoginComponent {
   form: any = new FormGroup({});
   formFields: FormlyFieldConfig[] = LOGIN_FORM_MODEL;
+  options: FormlyFormOptions = {};
+
   public error: string = '';
 
   constructor(
@@ -51,7 +53,7 @@ export class LoginComponent {
       .createOAuth2Session(
         'google',
         environment.baseUrl + '/user/my-feeds',
-        environment.baseUrl + '/login'
+        environment.baseUrl + '/auth/login'
       );
   }
 

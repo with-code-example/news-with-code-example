@@ -19,17 +19,33 @@ export class HomeComponent implements OnInit {
   public total: number = 0
   public feeds: any = []
   tagsForm = new FormControl('');
-  public tags: string[] = ['javascript', 'python'];
+  public tags: any[] = [];
   public feed_links: any = []
 
 
   constructor(private apiService: ApiService){}
   
   ngOnInit(): void {
-
     this.getAllFeeds()
+    this.fetchAllTags()
+  }
 
+  fetchAllTags(){
+    this.apiService.db().listDocuments(
+      environment.database.tech_news,
+      environment.database.collection.tags,
+      [
+        Query.notEqual('title', ''),
+        Query.orderDesc('post_count'),
+        Query.limit(10)
+      ]
+    ).then((resp: any) => {
+      if (resp.total > 0){
+        this.tags = resp.documents
+      }
+    }, err => {
 
+    })
   }
 
   getAllFeeds(){
@@ -46,10 +62,8 @@ export class HomeComponent implements OnInit {
       )
       .then(
         (response: any) => {
-          console.log(response)
           response.documents.forEach((resp: any) => {
             this.feed_links.push(resp.url);
-            console.log(resp.url)
           });
           if(this.feed_links.length > 0){
             this.getFeeds();
@@ -75,8 +89,8 @@ export class HomeComponent implements OnInit {
       Query.isNotNull('short_description'),
       Query.limit(this.limit),
       Query.offset(this.page * this.limit),
-      Query.orderDesc('$createdAt'),
-      Query.select(['title','image','short_description','categories','$id','link'])
+      Query.orderDesc('published_at'),
+      Query.select(['title','image','short_description','categories','$id','link','published_at'])
     )
    
     this.apiService
@@ -105,8 +119,9 @@ export class HomeComponent implements OnInit {
       );
   }
 
-  pagination(page: number) {
-    this.page = page;
+  pagination() {
+    console.log(this.page)
+    this.page = this.page + 1;
     this.getFeeds();
   }
 

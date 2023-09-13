@@ -1,3 +1,16 @@
 .feed-card{
     margin-bottom: 15px;
 }
+button.mdc-button.active{
+    background: #000;
+    color: #fff;
+}
+.infinite-scroll{
+    height: 100vh;
+    overflow: scroll;
+}
+.feeds-list{
+    line-height: 50px;
+    overflow-x: scroll;
+    white-space: nowrap;
+}

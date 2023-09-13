@@ -1,0 +1,36 @@
+@use '@angular/material' as mat;
+@include mat.core();
+$tech-news-primary: mat.define-palette(mat.$yellow-palette);
+$tech-news-dark-primary: mat.define-palette(mat.$yellow-palette);
+$tech-news-accent: mat.define-palette(mat.$pink-palette);
+$tech-news-warn: mat.define-palette(mat.$red-palette);
+
+$tech-news-light-theme: mat.define-light-theme((
+  color: (
+    primary: $tech-news-primary,
+    accent: $tech-news-accent,
+    warn: $tech-news-warn,
+  )
+));
+
+$tech-news-dark-theme: mat.define-dark-theme((
+  color: (
+    primary: $tech-news-dark-primary,
+    accent: $tech-news-accent,
+    warn: $tech-news-warn,
+  )
+));
+
+.light{
+  @include mat.all-component-themes($tech-news-light-theme);
+}
+.dark{
+  @include mat.all-component-themes($tech-news-dark-theme);
+}
+
+h3 {
+  font-size: 18px!important;
+}
+div#cdk-overlay-0{
+  background-color: #fff;
+}

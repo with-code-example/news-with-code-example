@@ -31,7 +31,9 @@ export class MyFeedsComponent {
   public tags: string[] = ['javascript', 'python'];
   public feed_links: any[] = []
   public fetchTags: any = []
-  public  queries: any
+  public queries: any
+  public allFeeds: any 
+  public currentFeed: string = ""
 
   constructor(
     private apiService: ApiService,
@@ -64,7 +66,10 @@ export class MyFeedsComponent {
       this.state = this.route.paramMap.pipe(map(() => window.history.state))
       this.state.subscribe((routeData: any) => {
         if(routeData.data && routeData.data.feed){
-          this.getFeeds([routeData.data.feed.url]);
+          this.allFeeds = routeData.data.allFeeds;
+          this.urls.push(routeData.data.feed.url)
+          this.getFeeds();
+          this.currentFeed = routeData.data.feed.$id
           // this.feed.url = routeData.data.feed.url
           this.configService.changeData({ title: routeData.data.feed.title });
         }else{
@@ -72,11 +77,7 @@ export class MyFeedsComponent {
           this.getFeedData()
         }
       })
-
     }
-
-    
-    
   }
 
   getAllFeeds(){
@@ -93,11 +94,12 @@ export class MyFeedsComponent {
       )
       .then(
         (response: any) => {
+          this.allFeeds = response.documents
           response.documents.forEach((resp: any) => {
             this.urls.push(resp.url);
           });
           if(this.urls.length > 0){
-            this.getFeeds(this.urls);
+            this.getFeeds();
           }
           this.configService.changeData({ title: 'Dashboard' });
         },
@@ -108,8 +110,7 @@ export class MyFeedsComponent {
 
   }
 
-  getFeeds(feed_links: any[]) {
-    this.feed_links = feed_links
+  getFeeds() {
     this.loading = true
     this.loadMoreText = 'Loading...';
     this.queries = []
@@ -117,12 +118,12 @@ export class MyFeedsComponent {
       this.queries.push(Query.search('categories', `'${this.fetchTags}'`))
     }
     this.queries.push(
-      Query.equal('feed_link', feed_links),
+      Query.equal('feed_link', this.urls),
       Query.notEqual('short_description', ""),
       Query.limit(this.limit),
       Query.offset(this.page * this.limit),
-      Query.orderDesc('$createdAt'),
-      Query.select(['title','image','short_description','categories','$id','link'])
+      Query.orderDesc('published_at'),
+      Query.select(['title','image','short_description','categories','$id','link',"published_at"])
     )
    
     this.apiService
@@ -138,8 +139,6 @@ export class MyFeedsComponent {
             this.total = response.total
             response.documents.forEach((feed: any) => {
               this.feeds.push(feed);
-              // console.log(this.feeds.length)
-              
             });
             
           }
@@ -168,7 +167,7 @@ export class MyFeedsComponent {
           (response: any) => {
             this.feed = response;
             this.configService.changeData({ title: this.feed.title });
-            this.getFeeds([this.feed.url]);
+            this.getFeeds();
           },
           (err) => {
             console.error(err);
@@ -177,15 +176,16 @@ export class MyFeedsComponent {
     }
   }
 
-  pagination(page: number) {
-    this.page = page;
-    this.getFeeds(this.urls);
+  pagination() {
+    this.page = this.page + 1;
+    console.log(this.page)
+    this.getFeeds();
   }
 
   onScroll(){
     console.log(this.page)
     this.page++;
-    this.getFeeds(this.urls);
+    this.getFeeds();
     
   }
 
@@ -194,7 +194,11 @@ export class MyFeedsComponent {
     this.feeds = []
     
     this.fetchTags = this.tagsForm.value
-    this.getFeeds(this.feed_links)
+    this.getFeeds()
+  }
+
+  navigateTo(route: string, feed: any = '') {
+    this.router.navigate([route], { state: { data: { feed, "allFeeds": this.allFeeds } } });
   }
 
   funcTest(){
