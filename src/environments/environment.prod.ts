@@ -16,7 +16,8 @@ export const environment = {
       collection: {
           "feeds": "feeds",
           "posts": "posts",
-          "tags": "tags"
+          "tags": "tags",
+          "likes": "likes"
       }
   },
   buckets: {
