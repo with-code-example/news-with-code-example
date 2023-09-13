@@ -1,6 +1,6 @@
 <div class="container-fluid infinite-scroll" 
 infinite-scroll
-[infiniteScrollDistance]="1"
+[infiniteScrollDistance]="2"
 [infiniteScrollThrottle]="300"
 (scrolled)="pagination()"
 [scrollWindow]="false"
@@ -38,5 +38,5 @@ infinite-scroll
     </button>
     <br /><br /><br /><br />
   </p>
-  <ng-container *ngIf="loading">Loading</ng-container>
+  <!-- <ng-container *ngIf="loading">Loading</ng-container> -->
 </div>

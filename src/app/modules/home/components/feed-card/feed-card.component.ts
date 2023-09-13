@@ -43,22 +43,27 @@ export class FeedCardComponent {
   }
 
   likeDislikePost(postId: string, isLiked: boolean, likeId: string){
-    console.log(postId, isLiked, likeId)
     this.apiService.account().getSession('current').then((isAuth: any) => {
       if(isAuth){
         var userId = isAuth.userId
+        
         if(isLiked){
+          this.item.isLiked = false
+          this.item.likeCount = this.item.likeCount - 1 
           // delete like
           this.apiService.db().deleteDocument(
             environment.database.tech_news,
             environment.database.collection.likes,
             likeId
           ).then(resp => {
-            this.item.likeCount = this.item.likeCount - 1 
+            
             this.item.isLiked = false
-            this.alert.openSnackBar("Disliked", "Close")
+            
           })
         }else{
+          
+          this.item.isLiked = true
+          this.item.likeCount = this.item.likeCount + 1
           // add like record
           this.apiService.db().createDocument(
             environment.database.tech_news,
@@ -66,22 +71,18 @@ export class FeedCardComponent {
             ID.unique(),
             {"post_id": postId, "user_id": userId}
           ).then((resp: any) => {
-            console.log( this.item.likeCount)
-            this.item.isLiked = true
-            this.item.likeCount = this.item.likeCount + 1
-            console.log(resp)
             this.item.likeID = resp.$id
-            this.alert.openSnackBar("Liked", "Close")
+            
           })
 
         }
-        console.log(postId)
-        console.log(isAuth)
       }else{
         this.alert.openSnackBar("Authentication is required", "Close")
+        this.router.navigate(['/auth/login'])
       }
     }, err => {
       this.alert.openSnackBar("Authentication is required", "Close")
+      this.router.navigate(['/auth/login'])
     })
   }
 

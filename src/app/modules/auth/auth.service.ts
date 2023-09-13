@@ -75,27 +75,22 @@ export class AuthService {
       user = JSON.parse(user);
       userId = user.userId;
     }else{
-
       this.apiService
       .account()
       .getSession('current')
       .then((isAuthenticated) => {
         if (!isAuthenticated) {
-          
           userId = "";
         } else {
           userId = isAuthenticated.userId
           this.setLocalStorage('user', JSON.stringify(isAuthenticated))
-          
         }
       })
       .catch(() => {
-        
         userId = "";
       });
 
     }
-
     return userId
   }
 

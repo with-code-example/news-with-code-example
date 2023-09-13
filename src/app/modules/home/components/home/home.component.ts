@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit {
   public loadMoreText: string = "Load More"
   public loading: boolean = false
   public fetchTags: any = []
-  public limit: number = 12
+  public limit: number = 8
   public page: number = 0
   public total: number = 0
   public feeds: any = []
@@ -144,6 +144,7 @@ export class HomeComponent implements OnInit {
               environment.database.collection.likes,
               [
                 Query.equal('post_id', postIds),
+                Query.limit(1000)
               ]
             ).then((resp: any) => {
               likesData = resp.documents
@@ -156,15 +157,8 @@ export class HomeComponent implements OnInit {
   
                 this.feeds.push(feedData);              
               });
-              console.log(this.feeds)
 
             })
-            
-            
-            
-
-            
-
             //this.configService.setLocalStorage(`feeds_${this.limit}_${this.page}_${JSON.stringify(this.fetchTags)}`, JSON.stringify(this.feeds), 60)
             
           }
