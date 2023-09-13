@@ -44,6 +44,23 @@ export class ConfigService {
     return item.value;
   }
 
+  setLocalStorage(
+    key: string,
+    value: string,
+    expirationInMinutes: number = (60*24)
+  ) {
+    if (typeof window !== 'undefined') {
+      const now = new Date();
+      const item = {
+        value: value,
+        expiry: now.getTime() + expirationInMinutes * 60 * 1000, // Convert minutes to milliseconds
+      };
+      localStorage.setItem(key, JSON.stringify(item));
+      return true
+    }
+    return false
+  }
+
   sidenavData(userId = '') {
     if (userId == '') {
       let user: any = this.getLocalStorage('user');

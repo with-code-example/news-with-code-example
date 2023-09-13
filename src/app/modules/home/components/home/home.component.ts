@@ -3,6 +3,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { environment } from 'src/environments/environment';
 import { Query } from 'appwrite';
 import {FormControl} from '@angular/forms';
+import { ConfigService } from 'src/app/services/config.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -23,7 +24,10 @@ export class HomeComponent implements OnInit {
   public feed_links: any = []
 
 
-  constructor(private apiService: ApiService){}
+  constructor(
+    private apiService: ApiService,
+    private configService: ConfigService
+  ){}
   
   ngOnInit(): void {
     this.getAllFeeds()
@@ -31,6 +35,13 @@ export class HomeComponent implements OnInit {
   }
 
   fetchAllTags(){
+
+    let allTags = this.configService.getLocalStorage('all_tags')
+    if (allTags) { 
+      this.tags = JSON.parse(allTags)
+      return; 
+    }
+
     this.apiService.db().listDocuments(
       environment.database.tech_news,
       environment.database.collection.tags,
@@ -42,6 +53,7 @@ export class HomeComponent implements OnInit {
     ).then((resp: any) => {
       if (resp.total > 0){
         this.tags = resp.documents
+        this.configService.setLocalStorage('all_tags', JSON.stringify(this.tags), 60)
       }
     }, err => {
 
@@ -49,7 +61,15 @@ export class HomeComponent implements OnInit {
   }
 
   getAllFeeds(){
+    
     this.loading = true
+
+    let all_feeds_urls = this.configService.getLocalStorage('all_feeds_urls')
+    if (all_feeds_urls) { 
+      this.feed_links = JSON.parse(all_feeds_urls)
+      this.getFeeds();
+      return; 
+    }
 
     this.apiService
       .db()
@@ -66,6 +86,7 @@ export class HomeComponent implements OnInit {
             this.feed_links.push(resp.url);
           });
           if(this.feed_links.length > 0){
+            this.configService.setLocalStorage('all_feeds_urls', JSON.stringify(this.feed_links), 240)
             this.getFeeds();
           }
         },
@@ -73,10 +94,15 @@ export class HomeComponent implements OnInit {
           console.error(err);
         }
       );
-
   }
 
   getFeeds() {
+
+    // let feeds = this.configService.getLocalStorage(`feeds_${this.limit}_${this.page}_${JSON.stringify(this.fetchTags)}`)
+    // if (feeds) { 
+    //   this.feeds = JSON.parse(feeds)
+    //   return; 
+    // }
     
     this.loading = true
     this.loadMoreText = 'Loading...';
@@ -107,6 +133,8 @@ export class HomeComponent implements OnInit {
             response.documents.forEach((feed: any) => {
               this.feeds.push(feed);              
             });
+
+            //this.configService.setLocalStorage(`feeds_${this.limit}_${this.page}_${JSON.stringify(this.fetchTags)}`, JSON.stringify(this.feeds), 60)
             
           }
           this.loadMoreText = 'Load More';
