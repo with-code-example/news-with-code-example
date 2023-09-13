@@ -2,13 +2,13 @@
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <form [formGroup]="form" (ngSubmit)="onSubmit()">
-                <formly-form [form]="form" [fields]="formFields"></formly-form>
+                <formly-form [form]="form" [fields]="formFields" [options]="options"></formly-form>
             
                 <div align="end">
                   Don't have an account ?
                   <a mat-button routerLink="/auth/sign-up">Sign Up</a> &nbsp;
                   <button mat-raised-button color="accent" type="submit">
-                    Submit
+                    Login
                   </button>
                   
                 </div>

@@ -9,3 +9,8 @@ button.mdc-button.active{
     height: 100vh;
     overflow: scroll;
 }
+.feeds-list{
+    line-height: 50px;
+    overflow-x: scroll;
+    white-space: nowrap;
+}

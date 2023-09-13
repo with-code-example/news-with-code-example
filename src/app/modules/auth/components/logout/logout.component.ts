@@ -32,7 +32,7 @@ export class LogoutComponent implements OnInit{
       localStorage.removeItem('user');    
       this.configService.sidenavData()
       this.router.navigate(['/']);
-    }, 500)
+    }, 1000)
     
 
   }

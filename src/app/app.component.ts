@@ -14,7 +14,7 @@ import { MatDrawerMode } from '@angular/material/sidenav';
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'Tech News';
-  public isMobile: boolean = false
+  public isMobile: boolean = true
 
   mobileQuery: MediaQueryList;
   // fillerNav = Array.from({length: 50}, (_, i) => `Nav Item ${i + 1}`);
@@ -34,7 +34,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private router: Router,
     private observer: BreakpointObserver
   ) {
-    this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    this.mobileQuery = media.matchMedia('(max-width: 1024px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
   }
@@ -89,6 +89,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
   toggle() {
     this.opened = !this.opened;
+    document.body.scrollTo(-100, 0);
   }
 
   changeColor() {

@@ -7,7 +7,7 @@
 >
   <div class="row">
     <div class="col-12" align="end">
-      <p>
+      <p class="feeds-list">
         <ng-container *ngFor="let feed of allFeeds">
           <button mat-raised-button (click)="navigateTo('/user/my-feeds/'+feed.$id, feed)" [ngClass]="{'active': currentFeed == feed.$id}">{{ feed.title }}</button> &nbsp;
         </ng-container>
