@@ -7,16 +7,20 @@
                 <div align="end">
                   Don't have an account ?
                   <a mat-button routerLink="/auth/sign-up">Sign Up</a> &nbsp;
-                  <button mat-raised-button color="accent" type="submit">
-                    Login
-                  </button>
-                  
+                  <button mat-raised-button color="accent" type="submit"> Login </button>
                 </div>
                 <div class="text-center">
+                  <br>
                   OR
+                  <br><br>
                 </div>
                 <div class="text-center">
-                  <button mat-raised-button color="primary" (click)="googleLogin()">Google</button>
+                  <button mat-raised-button color="primary" (click)="googleLogin()">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1200px-Google_%22G%22_Logo.svg.png" alt="google" height="25px">
+                  </button> &nbsp; 
+                  <button mat-raised-button color="primary" (click)="githubLogin()">
+                    <img src="https://cdn4.iconfinder.com/data/icons/iconsimple-logotypes/512/github-512.png" alt="github" height="25px">
+                  </button>
                 </div>
               </form>
         </div>

@@ -15,7 +15,9 @@ export class LogoutComponent implements OnInit{
     private apiService: ApiService, 
     private authService: AuthService,
     private configService: ConfigService
-  ) {}
+  ) {
+    
+  }
   ngOnInit(): void {
     let data: any = this.authService.getLocalStorage('user')
     data = JSON.parse(data)
@@ -24,16 +26,17 @@ export class LogoutComponent implements OnInit{
       let sessionId = data.$id
       this.apiService.account().deleteSession(sessionId).then(function (response) {
         
+        
       }, function (error) {
           console.log(error); // Failure
       });
     }
+
     setTimeout(()=>{
       localStorage.removeItem('user');    
       this.configService.sidenavData()
       this.router.navigate(['/']);
     }, 1000)
-    
 
   }
 }

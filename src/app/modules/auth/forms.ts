@@ -26,15 +26,15 @@ export const LOGIN_FORM_MODEL = [
             validation: [Validators.required],
         },
     },
-    {
-        key: 'rememberMe',
-        type: 'checkbox',
-        props: {
-            label: 'Remember me for 30 days',
-            // description: 'Remember me for 30 days',
-            required: false,
-        }
-    },
+    // {
+    //     key: 'rememberMe',
+    //     type: 'checkbox',
+    //     props: {
+    //         label: 'Remember me for 30 days',
+    //         // description: 'Remember me for 30 days',
+    //         required: false,
+    //     }
+    // },
 
 ];
 
@@ -91,14 +91,14 @@ export const REGISTER_FORM_MODEL = [
             validation: [Validators.required],
         },
     },
-    {
-        key: 'rememberMe',
-        type: 'checkbox',
-        props: {
-            label: 'Accept to T&C',
-            // description: 'Accept Terms and Conditions',
-            required: false,
-        }
-    },
+    // {
+    //     key: 'rememberMe',
+    //     type: 'checkbox',
+    //     props: {
+    //         label: 'Accept to T&C',
+    //         // description: 'Accept Terms and Conditions',
+    //         required: false,
+    //     }
+    // },
 
 ];
