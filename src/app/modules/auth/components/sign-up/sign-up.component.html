@@ -7,7 +7,13 @@
         <div align="end">
           Already have an account ?
           <a mat-button routerLink="/auth/login">Login here</a> &nbsp;
-          <button mat-raised-button color="accent" type="submit">Submit</button>
+          <button mat-raised-button color="accent" type="submit">Sign Up</button>
+        </div>
+        <div class="text-center">
+          OR
+        </div>
+        <div class="text-center">
+          <button mat-raised-button color="primary" (click)="googleSignup()">Google</button>
         </div>
       </form>
     </div>

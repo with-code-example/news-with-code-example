@@ -1,4 +1,4 @@
-<div class="sidenav-cont" [class.is-mobile]="mobileQuery.matches">
+<div class="sidenav-cont {{ colorScheme }}" [class.is-mobile]="mobileQuery.matches">
   <mat-toolbar color="primary" class="toolbar">
     <button mat-icon-button (click)="toggle()">
       <mat-icon>menu</mat-icon>
@@ -28,6 +28,7 @@
       (closedStart)="sidenav()"
     >
       <mat-nav-list>
+
         <ng-container *ngFor="let item of sidenavItems">
           <a mat-list-item *ngIf="!hasChildren(item)" (click)="navigateTo(item.route)">
             <div class="icon-container">
