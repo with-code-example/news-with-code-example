@@ -63,7 +63,7 @@ export class LoginComponent {
       .createOAuth2Session(
         'github',
         environment.baseUrl + '/user/my-feeds',
-        environment.baseUrl + '/login'
+        environment.baseUrl + '/auth/login'
       );
   }
 }
