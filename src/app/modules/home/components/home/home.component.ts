@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit {
   public loadMoreText: string = "Load More"
   public loading: boolean = false
   public fetchTags: any = []
-  public limit: number = 8
+  public limit: number = 12
   public page: number = 0
   public total: number = 0
   public feeds: any = []
@@ -160,7 +160,6 @@ export class HomeComponent implements OnInit {
 
             })
             
-            
           }
           this.loadMoreText = 'Load More';
           this.loading = false
@@ -192,7 +191,6 @@ export class HomeComponent implements OnInit {
   }
 
   pagination() {
-    console.log(this.page)
     this.page = this.page + 1;
     this.getFeeds();
   }
