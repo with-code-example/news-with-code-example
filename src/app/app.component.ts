@@ -17,7 +17,6 @@ export class AppComponent implements OnInit, OnDestroy {
   public isMobile: boolean = true
 
   mobileQuery: MediaQueryList;
-  // fillerNav = Array.from({length: 50}, (_, i) => `Nav Item ${i + 1}`);
   private _mobileQueryListener: () => void;
 
   public sidenavItems: any[] = [];
@@ -26,10 +25,12 @@ export class AppComponent implements OnInit, OnDestroy {
   public opened = false;
   public colorScheme: any = '';
   public sideNavMode = <MatDrawerMode>'side';
+  public loading: boolean = true
+  
   constructor(
     @Inject(PLATFORM_ID) private platformId: object,
-    changeDetectorRef: ChangeDetectorRef,
-    media: MediaMatcher,
+    private changeDetectorRef: ChangeDetectorRef,
+    private media: MediaMatcher,
     private configService: ConfigService,
     private router: Router,
     private observer: BreakpointObserver
@@ -37,9 +38,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.mobileQuery = media.matchMedia('(max-width: 1024px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
+    this.loading = false
   }
 
   ngOnInit(): void {
+    this.loading = true
     if (isPlatformBrowser(this.platformId)) {
       const navMain = document.getElementById('navbarCollapse');
       if (navMain) {
@@ -80,6 +83,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.opened = true;
       }
     });
+    this.loading = false
   }
 
   ngOnDestroy(): void {
