@@ -28,7 +28,7 @@ infinite-scroll
   <div class="row" 
 
   >
-    <div class="feed-card col-md-3 col-sm-6" *ngFor="let feed of feeds">
+    <div class="feed-card col-md-3 col-sm-6" *ngFor="let feed of (feeds$ | async)">
       <home-feed-card [item]="feed"></home-feed-card>
     </div>
   </div>

@@ -4,20 +4,35 @@ import { ApiService } from 'src/app/services/api.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { environment } from 'src/environments/environment';
 import { ID, Query } from 'appwrite'
- 
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { LikesState, Likes } from 'src/app/store';
+import { AuthService } from 'src/app/modules/auth/auth.service';
+
 @Component({
   selector: 'home-feed-card',
   templateUrl: './feed-card.component.html',
   styleUrls: ['./feed-card.component.css']
 })
 export class FeedCardComponent {
-
+  
   @Input() item: any;
+
+  @Select(LikesState.getLikes) likes$: Observable<any[]>;
+
+  public likeCount = 0
+  public isLiked = false
+  public likeID = ''
+
   constructor(
     private router: Router,
     private apiService: ApiService,
-    private alert: AlertService
-  ) {}
+    private alert: AlertService,
+    private store: Store,
+    private authService: AuthService
+  ) {
+  }
+  
 
 
   ngOnInit() {
@@ -36,7 +51,24 @@ export class FeedCardComponent {
       }
 
     }
+    var queries: any[] = [
+      Query.equal('post_id', this.item.$id),
+      Query.select(['post_id', 'user_id', '$id']),
+      Query.limit(1000),
+    ]
+    let likes = this.store.dispatch(new Likes.Fetch({queries: queries}));
+    var userId = this.authService.userId()
+    likes.subscribe(likeData => {
+      
+      
+      likeData.likesState.likes.forEach((like: any) => {
+        if(like.user_id == userId) { this.isLiked = true; this.likeID = like.$id}
+        this.likeCount++
+      })
+    })
+
   }
+  
 
   navigateTo(route: string, data: any){
     this.router.navigate([route], {state: {data}});
@@ -48,8 +80,8 @@ export class FeedCardComponent {
         var userId = isAuth.userId
         
         if(isLiked){
-          this.item.isLiked = false
-          this.item.likeCount = this.item.likeCount - 1 
+          this.isLiked = false
+          this.likeCount = this.likeCount - 1 
           // delete like
           this.apiService.db().deleteDocument(
             environment.database.tech_news,
@@ -62,8 +94,8 @@ export class FeedCardComponent {
           })
         }else{
           
-          this.item.isLiked = true
-          this.item.likeCount = this.item.likeCount + 1
+          this.isLiked = true
+          this.likeCount = this.likeCount + 1
           // add like record
           this.apiService.db().createDocument(
             environment.database.tech_news,

@@ -9,7 +9,11 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import * as Sentry from "@sentry/angular-ivy";
 import { Router } from "@angular/router";
-
+import { NgxsReduxDevtoolsPluginModule } from "@ngxs/devtools-plugin";
+import { environment } from 'src/environments/environment';
+import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
+import { NgxsModule } from '@ngxs/store';
+import { AppState } from 'src/app/store';
 
 @NgModule({
   declarations: [
@@ -24,10 +28,11 @@ import { Router } from "@angular/router";
     InfiniteScrollModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
-      // Register the ServiceWorker as soon as the application is stable
-      // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
-    })
+    }),
+    NgxsModule.forRoot(AppState, {}), 
+    environment.production? [] :  NgxsLoggerPluginModule.forRoot(),
+    environment.production? [] :  NgxsReduxDevtoolsPluginModule.forRoot()
   ],
   providers: [
     {

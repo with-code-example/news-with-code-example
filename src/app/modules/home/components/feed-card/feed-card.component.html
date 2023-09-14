@@ -28,10 +28,10 @@
     </mat-card-content>
     <mat-card-footer>
       <div class="text-center">
-        <button mat-button (click)="likeDislikePost(item.$id, item.isLiked, item.likeID)">
-          <mat-icon *ngIf="!item.isLiked">thumb_up_off_alt</mat-icon>
-          <mat-icon *ngIf="item.isLiked">thumb_up_alt</mat-icon>
-          {{ item.likeCount }}
+        <button mat-button (click)="likeDislikePost(item.$id, isLiked, likeID)">
+          <mat-icon *ngIf="!isLiked">thumb_up_off_alt</mat-icon>
+          <mat-icon *ngIf="isLiked">thumb_up_alt</mat-icon>
+          {{ this.likeCount }}
         </button>
         <button mat-button
           (click)="navigateTo('/read/' + item.$id, item)"
