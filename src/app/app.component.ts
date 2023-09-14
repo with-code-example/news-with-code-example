@@ -68,9 +68,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.configService.currentSidenavData.subscribe((data: any) => {
       this.sidenavItems = data;
     });
-  }
 
-  ngAfterViewInit() {
     this.observer.observe(['(max-width: 1024px)']).subscribe((res) => {
       if (res.matches) {
         this.isMobile = true

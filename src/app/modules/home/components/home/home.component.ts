@@ -100,7 +100,7 @@ export class HomeComponent implements OnInit {
 
   getFeeds() {
 
-    // let feeds = this.configService.getLocalStorage(`feeds_${this.limit}_${this.page}_${JSON.stringify(this.fetchTags)}`)
+    // let feeds = this.configService.getLocalStorage(`feeds_${this.limit}_${this.page}_${this.fetchTags.toString()}`)
     // if (feeds) { 
     //   this.feeds = JSON.parse(feeds)
     //   return; 
@@ -154,12 +154,12 @@ export class HomeComponent implements OnInit {
                 var likeData = this.processLike(feedId, userId, likesData)
                 let feedData = {...feed, ...likeData}
                 
-  
-                this.feeds.push(feedData);              
+                this.feeds.push(feedData);        
+                // this.configService.setLocalStorage(`feeds_${this.limit}_${this.page}_${this.fetchTags.toString()}`, JSON.stringify(this.feeds), 60)      
               });
 
             })
-            //this.configService.setLocalStorage(`feeds_${this.limit}_${this.page}_${JSON.stringify(this.fetchTags)}`, JSON.stringify(this.feeds), 60)
+            
             
           }
           this.loadMoreText = 'Load More';
