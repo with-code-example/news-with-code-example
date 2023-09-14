@@ -33,7 +33,7 @@ export class AuthService {
   setLocalStorage(
     key: string,
     value: string,
-    expirationInMinutes: number = (60*24)
+    expirationInMinutes: number = (240)
   ) {
     if (typeof window !== 'undefined') {
       const now = new Date();
@@ -68,34 +68,19 @@ export class AuthService {
   }
 
   userId(): string{
-
     var userId = ""
     let user: any = this.getLocalStorage('user');
     if(user){
       user = JSON.parse(user);
       userId = user.userId;
-    }else{
-      this.apiService
-      .account()
-      .getSession('current')
-      .then((isAuthenticated) => {
-        if (!isAuthenticated) {
-          userId = "";
-        } else {
-          userId = isAuthenticated.userId
-          this.setLocalStorage('user', JSON.stringify(isAuthenticated))
-        }
-      })
-      .catch(() => {
-        userId = "";
-      });
-
     }
     return userId
   }
 
   canActivate(): any {
-    if(this.getLocalStorage('user')){
+    const isUser = this.getLocalStorage('user')
+    if(isUser){
+      this.setLocalStorage('user', isUser, 240)
       return true
     }
     return this.apiService
