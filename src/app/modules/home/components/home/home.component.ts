@@ -5,6 +5,10 @@ import { Query } from 'appwrite';
 import { FormControl } from '@angular/forms';
 import { ConfigService } from 'src/app/services/config.service';
 import { AuthService } from 'src/app/modules/auth/auth.service';
+import { FeedsState, Feeds } from 'src/app/store';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -19,17 +23,23 @@ export class HomeComponent implements OnInit {
   public limit: number = 12
   public page: number = 0
   public total: number = 0
-  public feeds: any = []
+  // public feeds: any = []
   tagsForm = new FormControl('');
   public tags: any[] = [];
   public feed_links: any = []
 
+  public userInfo: any[] = [];
+
+  @Select(FeedsState.getFeeds) feeds$: Observable<any[]>;
 
   constructor(
     private apiService: ApiService,
     private configService: ConfigService,
-    private authService: AuthService
-  ){}
+    private authService: AuthService,
+    private store: Store
+  ){
+    
+  }
   
   ngOnInit(): void {
     this.getAllFeeds()
@@ -98,16 +108,8 @@ export class HomeComponent implements OnInit {
       );
   }
 
+  public feeds = []
   getFeeds() {
-
-    // let feeds = this.configService.getLocalStorage(`feeds_${this.limit}_${this.page}_${this.fetchTags.toString()}`)
-    // if (feeds) { 
-    //   this.feeds = JSON.parse(feeds)
-    //   return; 
-    // }
-    
-    this.loading = true
-    this.loadMoreText = 'Loading...';
     this.queries = []
     if (this.fetchTags.length > 0) {
       this.queries.push(Query.search('categories', `'${this.fetchTags}'`))
@@ -120,55 +122,70 @@ export class HomeComponent implements OnInit {
       Query.orderDesc('published_at'),
       Query.select(['title','image','short_description','categories','$id','link','published_at'])
     )
+    this.store.dispatch(new Feeds.Fetch({queries: this.queries}));
    
-    this.apiService
-      .db()
-      .listDocuments(
-        environment.database.tech_news,
-        environment.database.collection.posts,
-        this.queries
-      )
-      .then(
-        (response: any) => {
-          if (response.total > 0) {
-            this.total = response.total
-            var postIds: any[] = []
-            response.documents.forEach((feed: any) => {
-              postIds.push(feed.$id)
-            });
-            var userId: string = this.authService.userId()
 
-            var likesData : any[]
-            this.apiService.db().listDocuments(
-              environment.database.tech_news,
-              environment.database.collection.likes,
-              [
-                Query.equal('post_id', postIds),
-                Query.limit(1000)
-              ]
-            ).then((resp: any) => {
-              likesData = resp.documents
 
-              response.documents.forEach((feed: any) => {
-                let feedId = feed.$id
-                var likeData = this.processLike(feedId, userId, likesData)
-                let feedData = {...feed, ...likeData}
+
+    // // let feeds = this.configService.getLocalStorage(`feeds_${this.limit}_${this.page}_${this.fetchTags.toString()}`)
+    // // if (feeds) { 
+    // //   this.feeds = JSON.parse(feeds)
+    // //   return; 
+    // // }
+    
+    // this.loading = true
+    // this.loadMoreText = 'Loading...';
+    // this.queries = []
+    
+   
+    // this.apiService
+    //   .db()
+    //   .listDocuments(
+    //     environment.database.tech_news,
+    //     environment.database.collection.posts,
+    //     this.queries
+    //   )
+    //   .then(
+    //     (response: any) => {
+    //       if (response.total > 0) {
+    //         this.total = response.total
+    //         var postIds: any[] = []
+    //         response.documents.forEach((feed: any) => {
+    //           postIds.push(feed.$id)
+    //         });
+    //         var userId: string = this.authService.userId()
+
+    //         var likesData : any[]
+    //         this.apiService.db().listDocuments(
+    //           environment.database.tech_news,
+    //           environment.database.collection.likes,
+    //           [
+    //             Query.equal('post_id', postIds),
+    //             Query.limit(1000)
+    //           ]
+    //         ).then((resp: any) => {
+    //           likesData = resp.documents
+
+    //           response.documents.forEach((feed: any) => {
+    //             let feedId = feed.$id
+    //             var likeData = this.processLike(feedId, userId, likesData)
+    //             let feedData = {...feed, ...likeData}
                 
-                this.feeds.push(feedData);        
-                // this.configService.setLocalStorage(`feeds_${this.limit}_${this.page}_${this.fetchTags.toString()}`, JSON.stringify(this.feeds), 60)      
-              });
+    //             this.feeds.push(feedData);        
+    //             // this.configService.setLocalStorage(`feeds_${this.limit}_${this.page}_${this.fetchTags.toString()}`, JSON.stringify(this.feeds), 60)      
+    //           });
 
-            })
+    //         })
             
-          }
-          this.loadMoreText = 'Load More';
-          this.loading = false
-        },
-        (err: any) => {
-          console.log(err)
-          this.loading = false
-        }
-      );
+    //       }
+    //       this.loadMoreText = 'Load More';
+    //       this.loading = false
+    //     },
+    //     (err: any) => {
+    //       console.log(err)
+    //       this.loading = false
+    //     }
+    //   );
   }
 
   processLike(postId: string, userId: string, likes: any): object{
@@ -187,7 +204,6 @@ export class HomeComponent implements OnInit {
       }
     })
     return {likeCount, isLiked, likeID}
-
   }
 
   pagination() {
@@ -197,7 +213,7 @@ export class HomeComponent implements OnInit {
 
   filterTags(){
     this.page = 0
-    this.feeds = []
+    // this.feeds = []
     
     this.fetchTags = this.tagsForm.value
     this.getFeeds()

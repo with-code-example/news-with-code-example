@@ -8,6 +8,7 @@ import { FeedCardComponent } from './components/feed-card/feed-card.component';
 import { HelperdModule } from 'src/app/helpers/helper.module';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
+
 @NgModule({
   declarations: [
     HomeComponent,
@@ -19,7 +20,8 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     MatModule,
     ReactiveFormsModule,
     HelperdModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    
   ]
 })
 export class HomeModule { }
