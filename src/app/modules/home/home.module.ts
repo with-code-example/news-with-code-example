@@ -7,12 +7,18 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FeedCardComponent } from './components/feed-card/feed-card.component';
 import { HelperdModule } from 'src/app/helpers/helper.module';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { TagFeedsComponent } from './components/tag-feeds/tag-feeds.component';
+import { TagsComponent } from './components/tags/tags.component';
+import { ReadPostComponent } from './components/read-post/read-post.component';
 
 
 @NgModule({
   declarations: [
     HomeComponent,
     FeedCardComponent,
+    TagFeedsComponent,
+    TagsComponent,
+    ReadPostComponent,
   ],
   imports: [
     CommonModule,

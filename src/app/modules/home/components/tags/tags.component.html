@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="col-12">
+    <button mat-icon-button [matMenuTriggerFor]="filterMenu">
+      <mat-icon>filter_list</mat-icon>
+    </button>
+    <mat-menu #filterMenu="matMenu">
+      <button
+        mat-menu-item
+        [matMenuTriggerFor]="tagsMenu"
+        [matMenuTriggerData]="tagsMenuData"
+      >
+        Tags
+      </button>
+    </mat-menu>
+
+    <mat-menu #tagsMenu="matMenu">
+      <ng-template matMenuContent let-mytags="tags">
+        <button
+          mat-menu-item
+          *ngFor="let tag of mytags"
+          (click)="clearState()"
+          routerLink="{{ '/tag/' + tag.title }}"
+        >
+          {{ tag.title | titlecase }}
+        </button>
+      </ng-template>
+    </mat-menu>
+  </div>
+</div>

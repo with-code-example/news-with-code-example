@@ -1,46 +1,50 @@
 <mat-card>
-    <mat-card-header>
-      <mat-card-title>
-        <h3><b>{{ item.title | shorten : 60 }}</b></h3>
-      </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="card-content">
-        <ng-container *ngIf="item.image">
-          <div class="feed-description">
-              <img src="{{ item.image }}" alt="{{ item.title }}" class="card-image" />
+  <mat-card-header>
+    <mat-card-title>
+      <h3>
+        <b>{{ item.title | shorten : 60 }}</b>
+      </h3>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="card-content">
+      <ng-container *ngIf="item.image">
+        <div class="feed-description">
+          <img
+            src="{{ item.image }}"
+            alt="{{ item.title }}"
+            class="card-image"
+          />
           <p innerHTML="{{ item.short_description | shorten : 60 }}"></p>
-          </div>
-        </ng-container>
-        
-        <p
-          class="feed-description"
-          *ngIf="!item.image"
-          innerHTML="{{ item.short_description | shorten : 250 }}"
-        ></p>
-  
-        <small
-          ><span *ngFor="let cat of item.categories">
-            #{{ cat | titlecase }},
-          </span></small
-        >
-      </div>
-    </mat-card-content>
-    <mat-card-footer>
-      <div class="text-center">
-        <button mat-button (click)="likeDislikePost(item.$id, isLiked, likeID)">
-          <mat-icon *ngIf="!isLiked">thumb_up_off_alt</mat-icon>
-          <mat-icon *ngIf="isLiked">thumb_up_alt</mat-icon>
-          {{ this.likeCount }}
-        </button>
-        <button mat-button
-          (click)="navigateTo('/read/' + item.$id, item)"
-        ><mat-icon>read_more</mat-icon>
-        </button>
-      <button mat-button><mat-icon>share</mat-icon></button>
-      <button mat-button><mat-icon>bookmark_border</mat-icon></button>
-      <a mat-button href="{{ item.link }}" target="_blank" rel="nofollow"><mat-icon>open_in_new</mat-icon></a>
-      </div>
-    </mat-card-footer>
-  </mat-card>
-  
+        </div>
+      </ng-container>
+
+      <p
+        class="feed-description"
+        *ngIf="!item.image"
+        innerHTML="{{ item.short_description | shorten : 250 }}"
+      ></p>
+
+      <mat-chip-set cdkDropList cdkDropListOrientation="horizontal">
+        <mat-chip cdkDrag *ngFor="let cat of item.categories" (click)="clearState()" routerLink="{{ '/tag/'+cat }}">
+          <small>#{{ cat | titlecase }}</small>
+        </mat-chip>
+      </mat-chip-set>
+
+    </div>
+  </mat-card-content>
+  <mat-card-footer>
+    <div class="text-center">
+      <button mat-button (click)="likeDislikePost(item.$id, isLiked)">
+        <mat-icon *ngIf="!isLiked">thumb_up_off_alt</mat-icon>
+        <mat-icon *ngIf="isLiked">thumb_up_alt</mat-icon>
+        {{ likeCount }}
+      </button>
+      <!-- <button mat-button><mat-icon>share</mat-icon></button> -->
+      <!-- <button mat-button><mat-icon>bookmark_border</mat-icon></button> -->
+      <a mat-button routerLink="{{ '/read/' + item.$id }}"
+        ><mat-icon>open_in_new</mat-icon></a
+      >
+    </div>
+  </mat-card-footer>
+</mat-card>

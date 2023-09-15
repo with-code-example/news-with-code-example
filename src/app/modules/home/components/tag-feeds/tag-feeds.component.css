@@ -1,0 +1,7 @@
+.feed-card{
+    margin-bottom: 15px;
+}
+.infinite-scroll{
+    height: 100vh;
+    overflow: scroll;
+}

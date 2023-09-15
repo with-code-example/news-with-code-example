@@ -1,0 +1,29 @@
+<ng-container *ngIf="!loading; else loadingTemp">
+    <div class="container">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>
+                    <h2>{{ post?.title }}</h2>
+                </mat-card-title>
+                <mat-card-subtitle>
+                    Published at {{ post?.published_at * 1000 | date}} with {{ "https://"+post?.feed_domain }}
+                </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <p>
+                    <ng-container *ngFor="let tag of post?.categories">
+                        <button mat-button routerLink="{{ '/tag/'+tag }}" (click)="clearState()">#{{ tag | titlecase}}</button> 
+                    </ng-container>
+                </p>
+                <p [innerHTML]="post?.description"></p>
+                <a href="{{ post?.link }}" target="_blank" rel="nofollow"></a>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+</ng-container>
+
+
+<ng-template #loadingTemp>
+    Loading...
+</ng-template>

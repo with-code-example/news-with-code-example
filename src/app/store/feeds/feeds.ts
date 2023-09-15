@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
-import { tap } from 'rxjs/operators';
-import { Models, Query } from 'appwrite';
+import { Models } from 'appwrite';
 import { ApiService } from "../../services/api.service"; 
 import { environment } from "src/environments/environment";
 
@@ -10,9 +9,10 @@ export namespace Feeds {
     export class Fetch {
       static readonly type = '[Feed] FetchFeeds';
       constructor(
-        public payload: { queries: any; }
+        public payload: { queries: any, page: number }
       ) {}
     }
+
   
     // export class Add {
     //   static readonly type = '[Todo] AddTodo';
@@ -42,13 +42,18 @@ export namespace Feeds {
 /** State Model */
 export class FeedsStateModel {
     feeds: Array<Models.Document>;
+    total: Number;
+    page: Number;
 }
 @State<FeedsStateModel>({
     name: 'feedsState',
     defaults: {
         feeds: [],
+        total: 0,
+        page: 0
     },
 })
+
 
 @Injectable()
 export class FeedsState {
@@ -59,12 +64,22 @@ export class FeedsState {
       return state.feeds;
     }
 
+    @Selector()
+    static getTotal(state: FeedsStateModel) {
+      return state.total;
+    }
+
+    @Selector()
+    static getPage(state: FeedsStateModel) {
+      return state.page;
+    }
+
     @Action(Feeds.Fetch)
     async fetchFeeds(
         { getState, patchState }: StateContext<FeedsStateModel>,
         action: Feeds.Fetch
     ) {
-        let { queries } = action.payload;
+        let { queries, page } = action.payload;
         try {
             let feeds = await this.api.db().listDocuments(
                 environment.database.tech_news,
@@ -72,8 +87,11 @@ export class FeedsState {
                 queries
             )
             var oldFeeds = getState().feeds
+            
             patchState({
                 feeds: [...oldFeeds, ...feeds.documents],
+                total: feeds.total,
+                page: page
             });
         } catch (e: any) {
             console.log('Failed to fetch feeds');
@@ -86,6 +104,7 @@ export class FeedsState {
             // );
         }
     }
+
 
     // @Action(AddUsers)
     // addDataToState(ctx: StateContext<UserStateModel>, { payload }: AddUsers) {

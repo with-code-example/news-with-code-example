@@ -1,0 +1,8 @@
+:host ::ng-deep img{
+    width: 100%!important;
+}
+:host ::ng-deep pre{
+    background-color: black;
+    color: aqua;
+    padding: 10px;
+}
