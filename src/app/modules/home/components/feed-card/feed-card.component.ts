@@ -3,12 +3,10 @@ import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { environment } from 'src/environments/environment';
-import { ID, Query } from 'appwrite'
-import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { LikesState, Likes } from 'src/app/store';
+import { Store } from '@ngxs/store';
 import { AuthService } from 'src/app/modules/auth/auth.service';
-
+import { TagFeedsState } from 'src/app/store';
+import { StateReset } from 'ngxs-reset-plugin';
 @Component({
   selector: 'home-feed-card',
   templateUrl: './feed-card.component.html',
@@ -18,11 +16,11 @@ export class FeedCardComponent {
   
   @Input() item: any;
 
-  @Select(LikesState.getLikes) likes$: Observable<any[]>;
 
   public likeCount = 0
   public isLiked = false
   public likeID = ''
+  public userId = ""
 
   constructor(
     private router: Router,
@@ -51,21 +49,10 @@ export class FeedCardComponent {
       }
 
     }
-    var queries: any[] = [
-      Query.equal('post_id', this.item.$id),
-      Query.select(['post_id', 'user_id', '$id']),
-      Query.limit(1000),
-    ]
-    let likes = this.store.dispatch(new Likes.Fetch({queries: queries}));
-    var userId = this.authService.userId()
-    likes.subscribe(likeData => {
-      
-      
-      likeData.likesState.likes.forEach((like: any) => {
-        if(like.user_id == userId) { this.isLiked = true; this.likeID = like.$id}
-        this.likeCount++
-      })
-    })
+
+    this.likeCount = this.item.like_count? this.item.like_count: 0
+    this.userId = this.authService.userId()
+    this.isLiked = this.item.like_users.find((user: any) => user == this.userId)? true: false
 
   }
   
@@ -74,40 +61,46 @@ export class FeedCardComponent {
     this.router.navigate([route], {state: {data}});
   }
 
-  likeDislikePost(postId: string, isLiked: boolean, likeId: string){
+  likeDislikePost(postId: string, isLiked: boolean){
+
+    console.log(postId, isLiked)
+
     this.apiService.account().getSession('current').then((isAuth: any) => {
       if(isAuth){
-        var userId = isAuth.userId
-        
+
         if(isLiked){
           this.isLiked = false
           this.likeCount = this.likeCount - 1 
           // delete like
-          this.apiService.db().deleteDocument(
-            environment.database.tech_news,
-            environment.database.collection.likes,
-            likeId
-          ).then(resp => {
-            
-            this.item.isLiked = false
-            
-          })
+          this.item.like_users =  this.item.like_users.filter((user: any) => user !== this.userId);
+          
         }else{
           
           this.isLiked = true
           this.likeCount = this.likeCount + 1
           // add like record
-          this.apiService.db().createDocument(
-            environment.database.tech_news,
-            environment.database.collection.likes,
-            ID.unique(),
-            {"post_id": postId, "user_id": userId}
-          ).then((resp: any) => {
-            this.item.likeID = resp.$id
-            
-          })
+          console.log(this.item.like_users)
+          console.log(this.userId)
+          this.item.like_users.push(this.userId);
+          console.log(this.item.like_users)
 
         }
+
+        console.log(this.item.like_users)
+
+
+        this.apiService.db().updateDocument(
+          environment.database.tech_news,
+          environment.database.collection.posts,
+          this.item.$id,
+          {
+            "like_users": this.item.like_users,
+            "like_count": this.likeCount
+          }
+        ).then((resp: any) => {
+          this.item = resp
+        })
+
       }else{
         this.alert.openSnackBar("Authentication is required", "Close")
         this.router.navigate(['/auth/login'])
@@ -115,7 +108,11 @@ export class FeedCardComponent {
     }, err => {
       this.alert.openSnackBar("Authentication is required", "Close")
       this.router.navigate(['/auth/login'])
-    })
+    })    
+  }
+
+  clearState() {
+    this.store.dispatch(new StateReset(TagFeedsState));
   }
 
 }

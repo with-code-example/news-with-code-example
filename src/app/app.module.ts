@@ -14,6 +14,7 @@ import { environment } from 'src/environments/environment';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsModule } from '@ngxs/store';
 import { AppState } from 'src/app/store';
+import { NgxsResetPluginModule } from 'ngxs-reset-plugin';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { AppState } from 'src/app/store';
     }),
     NgxsModule.forRoot(AppState, {}), 
     environment.production? [] :  NgxsLoggerPluginModule.forRoot(),
-    environment.production? [] :  NgxsReduxDevtoolsPluginModule.forRoot()
+    environment.production? [] :  NgxsReduxDevtoolsPluginModule.forRoot(),
+    NgxsResetPluginModule.forRoot()
   ],
   providers: [
     {

@@ -1,9 +1,7 @@
-import { FeedsState } from './feeds';
-import { LikesState } from './likes/likes.store';
-
-export * from './feeds';
-
-export * from './likes/likes.store';
+import { FeedsState } from './feeds/feeds';
+import { TagFeedsState } from './feeds/tagFeed';
+export * from './feeds/feeds';
+export * from './feeds/tagFeed';
 
 
-export const AppState = [FeedsState, LikesState];
+export const AppState = [FeedsState, TagFeedsState];

@@ -4,25 +4,24 @@ import { environment } from 'src/environments/environment';
 import { Query } from 'appwrite';
 import { FormControl } from '@angular/forms';
 import { ConfigService } from 'src/app/services/config.service';
-import { FeedsState, Feeds, TagFeedsState } from 'src/app/store';
+import { TagFeedsState, TagFeeds } from 'src/app/store';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { StateReset } from 'ngxs-reset-plugin';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  selector: 'app-tag-feeds',
+  templateUrl: './tag-feeds.component.html',
+  styleUrls: ['./tag-feeds.component.css'],
 })
-export class HomeComponent implements OnInit {
+export class TagFeedsComponent implements OnInit {
   public queries: any;
   public loadMoreText: string = 'Load More';
   public loading: boolean = false;
   public fetchTags: any = [];
   public limit: number = 12;
   public page: number = 0;
-  public tagPage: number = 0;
   public total: number = 0;
   // public feeds: any = []
   tagsForm = new FormControl('');
@@ -30,11 +29,10 @@ export class HomeComponent implements OnInit {
   public userInfo: any[] = [];
   public tag: string = '';
   public feedAvaliable = false;
-  public tagFeedAvaliable = false;
 
-  @Select(FeedsState.getFeeds) feeds$: Observable<any[]>;
-  @Select(FeedsState.getTotal) total$: Observable<any[]>;
-  @Select(FeedsState.getPage) page$: Observable<any[]>;
+  @Select(TagFeedsState.getTagFeeds) feeds$: Observable<any[]>;
+  @Select(TagFeedsState.getTagTotal) otal$: Observable<any[]>;
+  @Select(TagFeedsState.getTagPage) page$: Observable<any[]>;
 
   constructor(
     private apiService: ApiService,
@@ -100,6 +98,10 @@ export class HomeComponent implements OnInit {
   public feeds = [];
   getFeeds() {
     this.queries = [];
+    if (this.tag != '') {
+      this.queries.push(Query.search('categories', `'${this.tag}'`));
+    }
+
     
     this.queries.push(
       Query.equal('feed_link', this.feed_links),
@@ -121,20 +123,23 @@ export class HomeComponent implements OnInit {
     );
 
     if (!this.feedAvaliable) {
-      var feed = this.store.dispatch(
-        new Feeds.Fetch({ queries: this.queries, page: this.page })
+      var resp = this.store.dispatch(
+        new TagFeeds.Fetch({ queries: this.queries, page: this.page })
       );
-      feed.subscribe((state) => {
-        this.total = state.feedsState.total;
+      resp.subscribe((state) => {
+        this.total = state.feedsState.tagTotal;
       });
     }
   }
 
   pagination() {
+    console.log('pagination')
     this.page = this.page + 1;
     this.feedAvaliable = false;
     this.getFeeds();
   }
 
-
+  clearState() {
+    this.store.dispatch(new StateReset(TagFeedsState));
+  }
 }

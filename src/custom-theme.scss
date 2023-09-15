@@ -1,11 +1,11 @@
 @use '@angular/material' as mat;
 @include mat.core();
-$tech-news-primary: mat.define-palette(mat.$pink-palette, 600);
-$tech-news-accent: mat.define-palette(mat.$gray-palette, 900);
+$tech-news-primary: mat.define-palette(mat.$gray-palette, 600);
+$tech-news-accent: mat.define-palette(mat.$pink-palette, 600);
 $tech-news-warn: mat.define-palette(mat.$red-palette);
 
-$tech-news-dark-primary: mat.define-palette(mat.$pink-palette, 700);
-$tech-news-dark-accent: mat.define-palette(mat.$gray-palette, 800);
+$tech-news-dark-primary: mat.define-palette(mat.$gray-palette, 900);
+$tech-news-dark-accent: mat.define-palette(mat.$pink-palette, 400);
 
 
 $tech-news-light-theme: mat.define-light-theme((
