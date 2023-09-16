@@ -66,11 +66,7 @@ export class TagFeedsComponent implements OnInit {
     if (this.tag != '') {
       this.queries.push(Query.search('categories', `'${this.tag}'`));
     }
-
-    
     this.queries.push(
-      Query.equal('feed_link', this.feed_links),
-      Query.isNotNull('short_description'),
       Query.limit(this.limit),
       Query.offset(this.page * this.limit),
       Query.orderDesc('published_at'),

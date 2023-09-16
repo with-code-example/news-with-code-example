@@ -102,7 +102,6 @@ export class HomeComponent implements OnInit {
     this.queries = [];
     
     this.queries.push(
-      Query.isNotNull('short_description'),
       Query.limit(this.limit),
       Query.offset(this.page * this.limit),
       Query.orderDesc('published_at'),
