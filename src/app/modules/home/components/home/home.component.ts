@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
   public loadMoreText: string = 'Load More';
   public loading: boolean = false;
   public fetchTags: any = [];
-  public limit: number = 12;
+  public limit: number = 10;
   public page: number = 0;
   public tagPage: number = 0;
   public total: number = 0;
@@ -57,7 +57,7 @@ export class HomeComponent implements OnInit {
           this.page = page;
         });
       }
-      this.getAllFeeds();
+      this.getFeeds();
     });
   }
 
@@ -88,7 +88,7 @@ export class HomeComponent implements OnInit {
               JSON.stringify(this.feed_links),
               240
             );
-            this.getFeeds();
+            
           }
         },
         (err) => {
@@ -102,15 +102,12 @@ export class HomeComponent implements OnInit {
     this.queries = [];
     
     this.queries.push(
-      Query.equal('feed_link', this.feed_links),
-      Query.isNotNull('short_description'),
       Query.limit(this.limit),
       Query.offset(this.page * this.limit),
       Query.orderDesc('published_at'),
       Query.select([
         'title',
         'image',
-        'short_description',
         'categories',
         '$id',
         'link',

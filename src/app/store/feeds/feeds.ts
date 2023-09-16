@@ -94,7 +94,7 @@ export class FeedsState {
                 page: page
             });
         } catch (e: any) {
-            console.log('Failed to fetch feeds');
+            console.error(e.messager)
             // dispatch(
             //     new GlobalActions.setAlert({
             //     message: e.message,

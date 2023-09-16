@@ -10,8 +10,6 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { TagFeedsComponent } from './components/tag-feeds/tag-feeds.component';
 import { TagsComponent } from './components/tags/tags.component';
 import { ReadPostComponent } from './components/read-post/read-post.component';
-
-
 @NgModule({
   declarations: [
     HomeComponent,

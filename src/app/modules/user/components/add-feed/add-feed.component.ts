@@ -36,7 +36,6 @@ export class AddFeedComponent {
   onSubmit() {
     if (this.form.valid) {
       const data = this.form.value;
-      console.log(data);
       let url = data.url;
       if (url != '') {
         this.apiService
@@ -105,7 +104,7 @@ export class AddFeedComponent {
                                 }
                               },
                               (err: any) => {
-                                console.log(err);
+                                console.error(err)
                               }
                             );
 

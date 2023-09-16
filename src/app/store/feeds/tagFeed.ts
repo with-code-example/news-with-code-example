@@ -69,7 +69,7 @@ export class TagFeedsState {
                 tagPage: page
             });
         } catch (e: any) {
-            console.log('Failed to fetch feeds');
+            console.error(e.message);
             
         }
     }
