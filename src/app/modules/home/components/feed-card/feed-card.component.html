@@ -1,43 +1,51 @@
 <mat-card>
   <mat-card-header>
     <mat-card-title>
-      <h3>
-        <b>{{ item.title | shorten : 60 }}</b>
-      </h3>
+        <a routerLink="{{ '/read/' + item.$id }}">
+          <b>{{ item.title | shorten : 50 }}</b>
+        </a>
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div class="card-content">
       <ng-container *ngIf="item.image">
         <div class="feed-description">
-          <img
-            src="{{ item.image }}"
-            alt="{{ item.title }}"
-            class="card-image"
-            loading="lazy"
-          />
+          <a routerLink="{{ '/read/' + item.$id }}">
+            <img
+              src="{{ item.image }}"
+              alt="{{ item.title }}"
+              class="card-image"
+              loading="lazy"
+            />
+            <p innerHTML="{{ item.short_description | shorten : 100 }}"></p>
+          </a>
         </div>
       </ng-container>
-      <mat-chip-set cdkDropList cdkDropListOrientation="horizontal">
-        <mat-chip cdkDrag *ngFor="let cat of item.categories" (click)="clearState()" routerLink="{{ '/tag/'+cat }}">
+      <p
+        class="feed-description"
+        *ngIf="!item.image"
+        innerHTML="{{ item.short_description | shorten : 250 }}"
+      ></p>
+      <!-- <mat-chip-set cdkDropList cdkDropListOrientation="horizontal" class="cp">
+        <mat-chip cdkDrag *ngFor="let cat of item.categories" (click)="clearState()" routerLink="{{ '/tag/'+cat }}" class="cp">
           <small>#{{ cat | titlecase }}</small>
         </mat-chip>
-      </mat-chip-set>
+      </mat-chip-set> -->
 
     </div>
   </mat-card-content>
-  <mat-card-footer>
+  <mat-card-footer class="card-footer">
     <div class="text-center">
-      <button mat-button (click)="likeDislikePost(item.$id, isLiked)">
+      <button mat-button (click)="likeDislikePost(isLiked)">
         <mat-icon *ngIf="!isLiked">thumb_up_off_alt</mat-icon>
         <mat-icon *ngIf="isLiked">thumb_up_alt</mat-icon>
         {{ likeCount }}
       </button>
-      <!-- <button mat-button><mat-icon>share</mat-icon></button> -->
       <!-- <button mat-button><mat-icon>bookmark_border</mat-icon></button> -->
       <a mat-button routerLink="{{ '/read/' + item.$id }}"
         ><mat-icon>open_in_new</mat-icon></a
       >
+      <button mat-button><mat-icon>share</mat-icon></button>
     </div>
   </mat-card-footer>
 </mat-card>

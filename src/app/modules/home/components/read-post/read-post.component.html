@@ -15,7 +15,7 @@
                         <button mat-button routerLink="{{ '/tag/'+tag }}" (click)="clearState()">#{{ tag | titlecase}}</button> 
                     </ng-container>
                 </p>
-                <p [innerHTML]="post?.description"></p>
+                <p [innerHTML]="post?.short_description"></p>
                 <a href="{{ post?.link }}" target="_blank" rel="nofollow">Read More</a>
             </mat-card-content>
         </mat-card>

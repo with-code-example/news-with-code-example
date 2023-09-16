@@ -61,9 +61,7 @@ export class FeedCardComponent {
     this.router.navigate([route], {state: {data}});
   }
 
-  likeDislikePost(postId: string, isLiked: boolean){
-
-
+  likeDislikePost(isLiked: boolean){
     this.apiService.account().getSession('current').then((isAuth: any) => {
       if(isAuth){
 
@@ -71,14 +69,14 @@ export class FeedCardComponent {
           this.isLiked = false
           this.likeCount = this.likeCount - 1 
           // delete like
-          this.item.like_users =  this.item.like_users.filter((user: any) => user !== this.userId);
+          this.item.like_users =  this.item.like_users.filter((user: any) => user !== isAuth.userId);
           
         }else{
           
           this.isLiked = true
           this.likeCount = this.likeCount + 1
           // add like record
-          this.item.like_users.push(this.userId);
+          this.item.like_users.push(isAuth.userId);
         }
         this.apiService.db().updateDocument(
           environment.database.tech_news,

@@ -5,14 +5,22 @@
     height: 150px;
 }
 .mat-mdc-card-title{
-    height: 63px;
+    height: 50px;
     overflow: hidden;
+    text-align: justify;
 }
 .card-content{
     height: 233px;
     overflow: hidden;
 }
 .feed-description{
-    height: 150px;
+    height: 225px;
     overflow: hidden;
+    text-align: justify;
+}
+.mat-mdc-standard-chip{
+    cursor: pointer!important;
+}
+.card-footer{
+    padding: 0 0 5px 0;
 }
