@@ -10,6 +10,13 @@
                 </mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
+                <div class="text-center">
+                    <img
+                    src="{{ post?.image }}"
+                    alt="{{ post?.title }}"
+                    loading="lazy"
+                    />
+                </div>
                 <p>
                     <ng-container *ngFor="let tag of post?.categories">
                         <button mat-button routerLink="{{ '/tag/'+tag }}" (click)="clearState()">#{{ tag | titlecase}}</button> 
