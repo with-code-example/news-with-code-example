@@ -25,10 +25,9 @@ export class LogoutComponent implements OnInit{
     if (data){
       let sessionId = data.$id
       this.apiService.account().deleteSession(sessionId).then(function (response) {
-        
-        
-      }, function (error) {
-          console.log(error); // Failure
+
+      }, function (err) {
+          console.error(err); // Failure
       });
     }
 

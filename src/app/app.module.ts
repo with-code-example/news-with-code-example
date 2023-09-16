@@ -38,6 +38,12 @@ import { NgxsResetPluginModule } from 'ngxs-reset-plugin';
   ],
   providers: [
     {
+      provide: ErrorHandler,
+      useValue: Sentry.createErrorHandler({
+        showDialog: false,
+      }),
+    },
+    {
       provide: Sentry.TraceService,
       deps: [Router],
     },

@@ -73,7 +73,6 @@ export class MyFeedsComponent {
           // this.feed.url = routeData.data.feed.url
           this.configService.changeData({ title: routeData.data.feed.title });
         }else{
-          console.log("getFeedData")
           this.getFeedData()
         }
       })
@@ -178,12 +177,10 @@ export class MyFeedsComponent {
 
   pagination() {
     this.page = this.page + 1;
-    console.log(this.page)
     this.getFeeds();
   }
 
   onScroll(){
-    console.log(this.page)
     this.page++;
     this.getFeeds();
     
@@ -211,10 +208,9 @@ export class MyFeedsComponent {
     ).then((resp: any) => {
       if(resp.status == "completed"){
         var response = JSON.parse(resp.responseBody)
-        console.log(response)
       }
     },(err: any) => {
-      console.log(err)
+      console.error(err)
     })
   }
 

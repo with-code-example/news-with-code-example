@@ -20,7 +20,7 @@ export class TagFeedsComponent implements OnInit {
   public loadMoreText: string = 'Load More';
   public loading: boolean = false;
   public fetchTags: any = [];
-  public limit: number = 12;
+  public limit: number = 10;
   public page: number = 0;
   public total: number = 0;
   // public feeds: any = []
@@ -55,45 +55,10 @@ export class TagFeedsComponent implements OnInit {
           this.page = page;
         });
       }
-      this.getAllFeeds();
+      this.getFeeds();
     });
   }
 
-
-  getAllFeeds() {
-    this.loading = true;
-    let all_feeds_urls = this.configService.getLocalStorage('all_feeds_urls');
-    if (all_feeds_urls) {
-      this.feed_links = JSON.parse(all_feeds_urls);
-      this.getFeeds();
-      return;
-    }
-    this.apiService
-      .db()
-      .listDocuments(
-        environment.database.tech_news,
-        environment.database.collection.feeds,
-        [Query.isNull('user_id')]
-      )
-      .then(
-        (response: any) => {
-          response.documents.forEach((resp: any) => {
-            this.feed_links.push(resp.url);
-          });
-          if (this.feed_links.length > 0) {
-            this.configService.setLocalStorage(
-              'all_feeds_urls',
-              JSON.stringify(this.feed_links),
-              240
-            );
-            this.getFeeds();
-          }
-        },
-        (err) => {
-          console.error(err);
-        }
-      );
-  }
 
   public feeds = [];
   getFeeds() {
@@ -112,7 +77,6 @@ export class TagFeedsComponent implements OnInit {
       Query.select([
         'title',
         'image',
-        'short_description',
         'categories',
         '$id',
         'link',
@@ -133,7 +97,6 @@ export class TagFeedsComponent implements OnInit {
   }
 
   pagination() {
-    console.log('pagination')
     this.page = this.page + 1;
     this.feedAvaliable = false;
     this.getFeeds();

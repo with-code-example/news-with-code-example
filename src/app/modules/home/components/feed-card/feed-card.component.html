@@ -14,17 +14,10 @@
             src="{{ item.image }}"
             alt="{{ item.title }}"
             class="card-image"
+            loading="lazy"
           />
-          <p innerHTML="{{ item.short_description | shorten : 60 }}"></p>
         </div>
       </ng-container>
-
-      <p
-        class="feed-description"
-        *ngIf="!item.image"
-        innerHTML="{{ item.short_description | shorten : 250 }}"
-      ></p>
-
       <mat-chip-set cdkDropList cdkDropListOrientation="horizontal">
         <mat-chip cdkDrag *ngFor="let cat of item.categories" (click)="clearState()" routerLink="{{ '/tag/'+cat }}">
           <small>#{{ cat | titlecase }}</small>

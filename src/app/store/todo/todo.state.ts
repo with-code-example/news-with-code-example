@@ -62,7 +62,6 @@ export class TodoState {
         { setState, dispatch }: StateContext<TodoStateModel>,
         action: Todos.Fetch
     ) {
-        console.log("HELLO")
         try {
             let todos = await this.api.db().listDocuments(
                 environment.database.tech_news,
@@ -72,7 +71,7 @@ export class TodoState {
                 todos: todos.documents,
             });
         } catch (e: any) {
-            console.log('Failed to fetch todos');
+            console.error(e.message);
             // dispatch(
             //     new GlobalActions.setAlert({
             //     message: e.message,

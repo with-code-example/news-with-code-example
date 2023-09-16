@@ -5,14 +5,14 @@
     height: 150px;
 }
 .mat-mdc-card-title{
-    height: 66px;
+    height: 63px;
     overflow: hidden;
 }
 .card-content{
-    height: 284px;
+    height: 233px;
     overflow: hidden;
 }
 .feed-description{
-    height: 200px;
+    height: 150px;
     overflow: hidden;
 }

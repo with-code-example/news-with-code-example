@@ -63,7 +63,6 @@ export class FeedCardComponent {
 
   likeDislikePost(postId: string, isLiked: boolean){
 
-    console.log(postId, isLiked)
 
     this.apiService.account().getSession('current').then((isAuth: any) => {
       if(isAuth){
@@ -79,16 +78,8 @@ export class FeedCardComponent {
           this.isLiked = true
           this.likeCount = this.likeCount + 1
           // add like record
-          console.log(this.item.like_users)
-          console.log(this.userId)
           this.item.like_users.push(this.userId);
-          console.log(this.item.like_users)
-
         }
-
-        console.log(this.item.like_users)
-
-
         this.apiService.db().updateDocument(
           environment.database.tech_news,
           environment.database.collection.posts,
@@ -106,6 +97,7 @@ export class FeedCardComponent {
         this.router.navigate(['/auth/login'])
       }
     }, err => {
+      console.error(err);
       this.alert.openSnackBar("Authentication is required", "Close")
       this.router.navigate(['/auth/login'])
     })    

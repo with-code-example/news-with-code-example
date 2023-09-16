@@ -132,16 +132,16 @@ export class ConfigService {
           icon: 'home',
           route: '/',
         },
-        {
-          title: 'Add New Source',
-          icon: 'add',
-          route: '/user/add-new',
-        },
-        {
-          title: 'My Feeds',
-          icon: 'list',
-          route: '/user/my-feeds',
-        },
+        // {
+        //   title: 'Add New Source',
+        //   icon: 'add',
+        //   route: '/user/add-new',
+        // },
+        // {
+        //   title: 'My Feeds',
+        //   icon: 'list',
+        //   route: '/user/my-feeds',
+        // },
         {
           title: 'Logout',
           icon: 'logout',
