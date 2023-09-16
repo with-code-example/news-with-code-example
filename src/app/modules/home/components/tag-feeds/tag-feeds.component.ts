@@ -68,6 +68,7 @@ export class TagFeedsComponent implements OnInit {
     }
     this.queries.push(
       Query.limit(this.limit),
+      Query.notEqual('image',''),
       Query.offset(this.page * this.limit),
       Query.orderDesc('published_at'),
       Query.select([
@@ -79,6 +80,7 @@ export class TagFeedsComponent implements OnInit {
         'published_at',
         'like_count',
         'like_users',
+        'short_description'
       ])
     );
 
