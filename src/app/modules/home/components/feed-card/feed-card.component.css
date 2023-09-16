@@ -5,7 +5,7 @@
     height: 150px;
 }
 .mat-mdc-card-title{
-    height: 50px;
+    height: 43px;
     overflow: hidden;
     text-align: justify;
 }
@@ -23,4 +23,8 @@
 }
 .card-footer{
     padding: 0 0 5px 0;
+}
+.date{
+    padding: 0 0 5px 0;
+    font-style: italic;
 }

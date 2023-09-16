@@ -1,5 +1,6 @@
 :host ::ng-deep img{
-    width: 100%!important;
+    width: 80%!important;
+    margin: 0 auto;
 }
 :host ::ng-deep pre{
     background-color: black;
