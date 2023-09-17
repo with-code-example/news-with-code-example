@@ -18,9 +18,9 @@ import { Router } from '@angular/router';
 export class HomeComponent implements OnInit {
   public queries: any;
   public loadMoreText: string = 'Load More';
-  public loading: boolean = false;
+  public loading: boolean = true;
   public fetchTags: any = [];
-  public limit: number = 10;
+  public limit: number = 12;
   public page: number = 0;
   public tagPage: number = 0;
   public total: number = 0;
@@ -62,43 +62,9 @@ export class HomeComponent implements OnInit {
   }
 
 
-  getAllFeeds() {
-    this.loading = true;
-    let all_feeds_urls = this.configService.getLocalStorage('all_feeds_urls');
-    if (all_feeds_urls) {
-      this.feed_links = JSON.parse(all_feeds_urls);
-      this.getFeeds();
-      return;
-    }
-    this.apiService
-      .db()
-      .listDocuments(
-        environment.database.tech_news,
-        environment.database.collection.feeds,
-        [Query.isNull('user_id')]
-      )
-      .then(
-        (response: any) => {
-          response.documents.forEach((resp: any) => {
-            this.feed_links.push(resp.url);
-          });
-          if (this.feed_links.length > 0) {
-            this.configService.setLocalStorage(
-              'all_feeds_urls',
-              JSON.stringify(this.feed_links),
-              240
-            );
-            
-          }
-        },
-        (err) => {
-          console.error(err);
-        }
-      );
-  }
-
   public feeds = [];
   getFeeds() {
+    this.loading = true
     this.queries = [];
     
     this.queries.push(
@@ -125,8 +91,10 @@ export class HomeComponent implements OnInit {
       );
       feed.subscribe((state) => {
         this.total = state.feedsState.total;
+        this.loading = false
       });
     }
+    
   }
 
   pagination() {

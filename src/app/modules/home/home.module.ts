@@ -10,6 +10,9 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { TagFeedsComponent } from './components/tag-feeds/tag-feeds.component';
 import { TagsComponent } from './components/tags/tags.component';
 import { ReadPostComponent } from './components/read-post/read-post.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { LoadingComponent } from './components/loading/loading.component';
+
 @NgModule({
   declarations: [
     HomeComponent,
@@ -17,6 +20,7 @@ import { ReadPostComponent } from './components/read-post/read-post.component';
     TagFeedsComponent,
     TagsComponent,
     ReadPostComponent,
+    LoadingComponent,
   ],
   imports: [
     CommonModule,
@@ -25,7 +29,7 @@ import { ReadPostComponent } from './components/read-post/read-post.component';
     ReactiveFormsModule,
     HelperdModule,
     InfiniteScrollModule,
-    
+    NgxSkeletonLoaderModule.forRoot({ animation: 'pulse', loadingText: 'This item is actually loading...' }),
   ]
 })
 export class HomeModule { }
