@@ -18,15 +18,19 @@
               class="card-image"
               loading="lazy"
             />
-            <p innerHTML="{{ item.short_description | shorten : 100 }}"></p>
+            <p>
+              <b>TLDR; </b>
+              <span innerHTML="{{ item.short_description | shorten : 100 }}"></span>
+            </p>
           </a>
         </div>
       </ng-container>
-      <p
-        class="feed-description"
-        *ngIf="!item.image"
-        innerHTML="{{ item.short_description | shorten : 250 }}"
-      ></p>
+
+      <p class="feed-description"
+      *ngIf="!item.image">
+        <b>TLDR; </b>
+        <span innerHTML="{{ item.short_description | shorten : 270 }}"></span>
+      </p>
       <!-- <mat-chip-set cdkDropList cdkDropListOrientation="horizontal" class="cp">
         <mat-chip cdkDrag *ngFor="let cat of item.categories" (click)="clearState()" routerLink="{{ '/tag/'+cat }}" class="cp">
           <small>#{{ cat | titlecase }}</small>
