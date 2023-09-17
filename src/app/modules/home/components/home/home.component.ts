@@ -103,7 +103,7 @@ export class HomeComponent implements OnInit {
     
     this.queries.push(
       Query.limit(this.limit),
-      Query.notEqual('image',''),
+      // Query.notEqual('image',''),
       Query.offset(this.page * this.limit),
       Query.orderDesc('published_at'),
       Query.select([
@@ -133,6 +133,15 @@ export class HomeComponent implements OnInit {
     this.page = this.page + 1;
     this.feedAvaliable = false;
     this.getFeeds();
+  }
+  
+  storageTest(){
+    console.log("Storage Test")
+    var file = this.apiService.storage().getFileView(
+      environment.buckets.images,
+      '650186672c650bfac1e7'
+    )
+    console.log(file)
   }
 
 

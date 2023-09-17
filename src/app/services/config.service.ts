@@ -77,7 +77,6 @@ export class ConfigService {
               userId = user.userId
               this.fetchAndUpdateSidenav(userId)
               this.setLocalStorage('user', JSON.stringify(user))
-
             }else{
               this.fetchAndUpdateSidenav('')
             }
