@@ -7,19 +7,15 @@
   [scrollWindow]="false"
 >
   <app-tags></app-tags>
-
   <div class="row">
     <div
       class="feed-card col-md-3 col-sm-6"
-      *ngFor="let feed of feeds$ | async"
+      *ngFor="let feed of (feeds$ | async)"
     >
       <home-feed-card [item]="feed"></home-feed-card>
     </div>
   </div>
-  <p class="text-center" *ngIf="total > (page + 1) * limit">
-    <button mat-raised-button (click)="pagination()" class="btn">
-      {{ loadMoreText }}
-    </button>
-    <br /><br /><br /><br />
-  </p>
+  <ng-container *ngIf="loading">
+    <app-loading></app-loading>
+  </ng-container>  
 </div>

@@ -41,16 +41,23 @@
   </mat-card-content>
   <mat-card-footer class="card-footer">
     <div class="text-center">
-      <button mat-button (click)="likeDislikePost(isLiked)">
-        <mat-icon *ngIf="!isLiked">thumb_up_off_alt</mat-icon>
-        <mat-icon *ngIf="isLiked">thumb_up_alt</mat-icon>
-        {{ likeCount }}
-      </button>
-      <!-- <button mat-button><mat-icon>bookmark_border</mat-icon></button> -->
-      <a mat-button routerLink="{{ '/read/' + item.$id }}"
-        ><mat-icon>open_in_new</mat-icon></a
-      >
-      <button mat-button><mat-icon>share</mat-icon></button>
+      <div class="row">
+        <div class="col-4">
+          <button mat-button (click)="likeDislikePost(isLiked)">
+            <mat-icon *ngIf="!isLiked">thumb_up_off_alt</mat-icon>
+            <mat-icon *ngIf="isLiked">thumb_up_alt</mat-icon>
+            {{ likeCount }}
+          </button>
+        </div>
+        <div class="col-4">
+          <button mat-button><mat-icon>share</mat-icon></button>
+        </div>
+        <div class="col-4">
+          <a mat-button routerLink="{{ '/read/' + item.$id }}"
+          ><mat-icon>open_in_new</mat-icon></a
+        >
+        </div>
+      </div>
     </div>
   </mat-card-footer>
 </mat-card>

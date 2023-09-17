@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
-import { environment } from 'src/environments/environment';
 import { Query } from 'appwrite';
 import { FormControl } from '@angular/forms';
 import { ConfigService } from 'src/app/services/config.service';
@@ -18,25 +17,21 @@ import { Router } from '@angular/router';
 export class TagFeedsComponent implements OnInit {
   public queries: any;
   public loadMoreText: string = 'Load More';
-  public loading: boolean = false;
+  public loading: boolean = true;
   public fetchTags: any = [];
-  public limit: number = 10;
+  public limit: number = 12;
   public page: number = 0;
   public total: number = 0;
-  // public feeds: any = []
   tagsForm = new FormControl('');
   public feed_links: any = [];
-  public userInfo: any[] = [];
   public tag: string = '';
   public feedAvaliable = false;
 
   @Select(TagFeedsState.getTagFeeds) feeds$: Observable<any[]>;
-  @Select(TagFeedsState.getTagTotal) otal$: Observable<any[]>;
+  @Select(TagFeedsState.getTagTotal) total$: Observable<any[]>;
   @Select(TagFeedsState.getTagPage) page$: Observable<any[]>;
 
   constructor(
-    private apiService: ApiService,
-    private configService: ConfigService,
     private store: Store,
     private route: ActivatedRoute,
     private router: Router
@@ -62,6 +57,7 @@ export class TagFeedsComponent implements OnInit {
 
   public feeds = [];
   getFeeds() {
+    this.loading = true
     this.queries = [];
     if (this.tag != '') {
       this.queries.push(Query.search('categories', `'${this.tag}'`));
@@ -90,6 +86,7 @@ export class TagFeedsComponent implements OnInit {
       );
       resp.subscribe((state) => {
         this.total = state.feedsState.tagTotal;
+        this.loading = false
       });
     }
   }
