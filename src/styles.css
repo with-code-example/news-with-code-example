@@ -1,9 +1,11 @@
 @import url('/node_modules/bootstrap/dist/css/bootstrap-grid.min.css');
-body {
-  font-family: "Roboto", sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&family=Roboto:wght@100;300;400;500;700;900&display=swap');
+* {
+  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto Condensed', sans-serif;
 }
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; }
 
 .cdk-overlay-pane{
   background-color: #fff;
