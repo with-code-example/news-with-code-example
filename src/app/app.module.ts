@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Meta } from '@angular/platform-browser';
 import { APP_INITIALIZER, ErrorHandler, NgModule, isDevMode } from '@angular/core';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -53,6 +53,7 @@ import { NgxsResetPluginModule } from 'ngxs-reset-plugin';
       deps: [Sentry.TraceService],
       multi: true,
     },
+    Meta
   ],
   bootstrap: [AppComponent]
 })
