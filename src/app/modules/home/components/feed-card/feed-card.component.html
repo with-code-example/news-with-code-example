@@ -8,7 +8,7 @@
   </mat-card-header>
   <mat-card-content>
     <div class="card-content">
-      <div class="date"><small>{{ item?.published_at * 1000 | date: 'medium' }}</small></div>
+      <div class="date"><small>{{ item?.published_at * 1000 | date }}</small></div>
       <ng-container *ngIf="item.image">
         <div class="feed-description">
           <a routerLink="{{ '/read/' + item.$id }}">
@@ -19,7 +19,6 @@
               loading="lazy"
             />
             <p>
-              <b>TLDR; </b>
               <span innerHTML="{{ item.short_description | shorten : 100 }}"></span>
             </p>
           </a>
@@ -28,7 +27,7 @@
 
       <p class="feed-description"
       *ngIf="!item.image">
-        <b>TLDR; </b>
+       
         <span innerHTML="{{ item.short_description | shorten : 270 }}"></span>
       </p>
       <!-- <mat-chip-set cdkDropList cdkDropListOrientation="horizontal" class="cp">
@@ -43,21 +42,62 @@
     <div class="text-center">
       <div class="row">
         <div class="col-4">
-          <button mat-button (click)="likeDislikePost(isLiked)">
+          <button mat-button color="accent"  (click)="likeDislikePost(isLiked)">
             <mat-icon *ngIf="!isLiked">thumb_up_off_alt</mat-icon>
             <mat-icon *ngIf="isLiked">thumb_up_alt</mat-icon>
             {{ likeCount }}
           </button>
         </div>
         <div class="col-4">
-          <button mat-button><mat-icon>share</mat-icon></button>
+          <button mat-button color="accent" [matMenuTriggerFor]="menu"><mat-icon>share</mat-icon></button>
         </div>
         <div class="col-4">
-          <a mat-button routerLink="{{ '/read/' + item.$id }}"
-          ><mat-icon>open_in_new</mat-icon></a
+          <a mat-button color="accent" routerLink="{{ '/read/' + item.$id }}"
+          >Read</a
         >
         </div>
       </div>
     </div>
   </mat-card-footer>
 </mat-card>
+
+<mat-menu #menu="matMenu">
+  <a mat-menu-item target="_blank" rel="nofollow" href="http://twitter.com/share?text={{ shareTitle(item.title) }}&url={{ shareLink(item.$id) }}&hashtags={{ hashtags(item.categories) }}">
+    <span class="icon">
+      <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="22" height="22" viewBox="0 0 24 24">
+        <path d="M22,3.999c-0.78,0.463-2.345,1.094-3.265,1.276c-0.027,0.007-0.049,0.016-0.075,0.023c-0.813-0.802-1.927-1.299-3.16-1.299 c-2.485,0-4.5,2.015-4.5,4.5c0,0.131-0.011,0.372,0,0.5c-3.353,0-5.905-1.756-7.735-4c-0.199,0.5-0.286,1.29-0.286,2.032 c0,1.401,1.095,2.777,2.8,3.63c-0.314,0.081-0.66,0.139-1.02,0.139c-0.581,0-1.196-0.153-1.759-0.617c0,0.017,0,0.033,0,0.051 c0,1.958,2.078,3.291,3.926,3.662c-0.375,0.221-1.131,0.243-1.5,0.243c-0.26,0-1.18-0.119-1.426-0.165 c0.514,1.605,2.368,2.507,4.135,2.539c-1.382,1.084-2.341,1.486-5.171,1.486H2C3.788,19.145,6.065,20,8.347,20 C15.777,20,20,14.337,20,8.999c0-0.086-0.002-0.266-0.005-0.447C19.995,8.534,20,8.517,20,8.499c0-0.027-0.008-0.053-0.008-0.08 c-0.003-0.136-0.006-0.263-0.009-0.329c0.79-0.57,1.475-1.281,2.017-2.091c-0.725,0.322-1.503,0.538-2.32,0.636 C20.514,6.135,21.699,4.943,22,3.999z"></path>
+    </svg>
+    </span>
+    <span class="text"> &nbsp; Twitter</span>
+    
+  </a>
+  <a mat-menu-item target="_blank" rel="nofollow" href="https://www.facebook.com/sharer/sharer.php?u={{ shareLink(item.$id) }}">
+    
+    <span class="icon">
+      <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="22" height="22" viewBox="0 0 24 24">
+        <path d="M19,3H5C3.895,3,3,3.895,3,5v14c0,1.105,0.895,2,2,2h7.621v-6.961h-2.343v-2.725h2.343V9.309 c0-2.324,1.421-3.591,3.495-3.591c0.699-0.002,1.397,0.034,2.092,0.105v2.43h-1.428c-1.13,0-1.35,0.534-1.35,1.322v1.735h2.7 l-0.351,2.725h-2.365V21H19c1.105,0,2-0.895,2-2V5C21,3.895,20.105,3,19,3z"></path>
+      </svg>
+    </span>
+    
+    <span class="text"> &nbsp; Facebook</span>
+  </a>
+  <a mat-menu-item target="_blank" rel="nofollow" href="https://www.linkedin.com/shareArticle?mini=true&url={{ shareLink(item.$id) }}&title={{ shareTitle(item.title) }}&source={{ shareLink(item.$id) }}&summary={{ shareSummary(item.short_description | shorten : 50) }}">
+
+    <span class="icon">
+      <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="22" height="22" viewBox="0 0 24 24">
+        <path d="M19,3H5C3.895,3,3,3.895,3,5v14c0,1.105,0.895,2,2,2h14c1.105,0,2-0.895,2-2V5C21,3.895,20.105,3,19,3z M9,17H6.477v-7H9 V17z M7.694,8.717c-0.771,0-1.286-0.514-1.286-1.2s0.514-1.2,1.371-1.2c0.771,0,1.286,0.514,1.286,1.2S8.551,8.717,7.694,8.717z M18,17h-2.442v-3.826c0-1.058-0.651-1.302-0.895-1.302s-1.058,0.163-1.058,1.302c0,0.163,0,3.826,0,3.826h-2.523v-7h2.523v0.977 C13.93,10.407,14.581,10,15.802,10C17.023,10,18,10.977,18,13.174V17z"></path>
+    </svg>
+    </span>
+    <span class="text"> &nbsp; Linkedin</span>
+  </a>
+  
+  <a mat-menu-item target="_blank" rel="nofollow" href="http://www.reddit.com/submit?url={{ shareLink(item.$id) }}&title={{ shareTitle(item.title) }}">
+
+    <span class="icon">
+      <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="22" height="22" viewBox="0 0 24 24">
+        <path d="M 14 3 C 12.300781 3 11 4.414063 11 6 L 11 8.03125 C 8.882813 8.175781 6.976563 8.785156 5.4375 9.71875 C 4.878906 9.28125 4.21875 9.03125 3.5625 9.03125 C 2.835938 9.03125 2.128906 9.308594 1.625 9.875 C 0.667969 11.070313 0.753906 13.023438 2.09375 14.03125 C 2.03125 14.347656 2 14.667969 2 15 C 2 17.054688 3.242188 18.84375 5.0625 20.0625 C 6.882813 21.28125 9.320313 22 12 22 C 14.679688 22 17.117188 21.28125 18.9375 20.0625 C 20.757813 18.84375 22 17.054688 22 15 C 22 14.667969 21.9375 14.347656 21.875 14.03125 C 23.238281 12.945313 23.378906 11.003906 22.375 9.875 C 21.871094 9.308594 21.164063 9.03125 20.4375 9.03125 C 19.78125 9.03125 19.121094 9.28125 18.5625 9.71875 C 17.023438 8.785156 15.117188 8.175781 13 8.03125 L 13 6 C 13 5.386719 13.300781 5 14 5 C 14.320313 5 14.773438 5.171875 15.53125 5.4375 C 16.203125 5.671875 17.09375 5.914063 18.25 5.96875 C 18.589844 6.585938 19.25 7 20 7 C 21.101563 7 22 6.101563 22 5 C 22 3.898438 21.101563 3 20 3 C 19.273438 3 18.632813 3.382813 18.28125 3.96875 C 17.394531 3.925781 16.769531 3.765625 16.1875 3.5625 C 15.519531 3.328125 14.878906 3 14 3 Z M 20 4 C 20.601563 4 21 4.398438 21 5 C 21 5.601563 20.601563 6 20 6 C 19.398438 6 19 5.601563 19 5 C 19 4.398438 19.398438 4 20 4 Z M 12 10 C 14.320313 10 16.382813 10.636719 17.8125 11.59375 C 19.242188 12.550781 20 13.753906 20 15 C 20 16.246094 19.242188 17.449219 17.8125 18.40625 C 16.382813 19.363281 14.320313 20 12 20 C 9.679688 20 7.617188 19.363281 6.1875 18.40625 C 4.757813 17.449219 4 16.246094 4 15 C 4 13.753906 4.757813 12.550781 6.1875 11.59375 C 7.617188 10.636719 9.679688 10 12 10 Z M 3.59375 10.03125 C 3.925781 10.03125 4.277344 10.101563 4.59375 10.28125 C 3.628906 11.023438 2.878906 11.9375 2.4375 12.96875 C 1.855469 12.28125 1.867188 11.191406 2.375 10.53125 C 2.671875 10.195313 3.121094 10.03125 3.59375 10.03125 Z M 20.40625 10.03125 C 20.878906 10.03125 21.328125 10.195313 21.625 10.53125 C 22.117188 11.085938 22.15625 12.175781 21.5625 12.9375 C 21.121094 11.914063 20.363281 11.019531 19.40625 10.28125 C 19.722656 10.101563 20.074219 10.03125 20.40625 10.03125 Z M 9 12 C 8.171875 12 7.5 12.671875 7.5 13.5 C 7.5 14.328125 8.171875 15 9 15 C 9.828125 15 10.5 14.328125 10.5 13.5 C 10.5 12.671875 9.828125 12 9 12 Z M 15 12 C 14.171875 12 13.5 12.671875 13.5 13.5 C 13.5 14.328125 14.171875 15 15 15 C 15.828125 15 16.5 14.328125 16.5 13.5 C 16.5 12.671875 15.828125 12 15 12 Z M 16.09375 16.40625 C 15.195313 17.207031 13.699219 17.6875 12 17.6875 C 10.300781 17.6875 8.804688 17.199219 7.90625 16.5 C 8.40625 17.800781 10 19 12 19 C 14 19 15.59375 17.804688 16.09375 16.40625 Z"></path>
+        </svg>
+    </span>
+    <span class="text"> &nbsp; Reddit</span>
+  </a>
+</mat-menu>

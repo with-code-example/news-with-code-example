@@ -105,4 +105,20 @@ export class FeedCardComponent {
     this.store.dispatch(new StateReset(TagFeedsState));
   }
 
+  hashtags(arr: any){
+    return encodeURIComponent(arr.join(','))
+  }
+
+  shareTitle(title: string){
+    return encodeURIComponent(title)
+  }
+
+  shareLink(id: string) {
+    return encodeURIComponent(`${environment.baseUrl}/read/${id}`)
+  }
+
+  shareSummary(summary: string) {
+    return encodeURIComponent(summary)
+  }
+
 }
