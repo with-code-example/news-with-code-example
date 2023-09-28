@@ -4,8 +4,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthService } from './modules/auth/auth.service';
 import { QuicklinkModule, QuicklinkStrategy } from 'ngx-quicklink';
 
-
-
 const routes: Routes = [
   {
     path: '',

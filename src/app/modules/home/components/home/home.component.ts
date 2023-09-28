@@ -10,6 +10,8 @@ import { Observable } from 'rxjs';
 import { StateReset } from 'ngxs-reset-plugin';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { Meta, Title } from '@angular/platform-browser';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -41,10 +43,18 @@ export class HomeComponent implements OnInit {
     private configService: ConfigService,
     private store: Store,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private metaService: Meta,
+    private titleService: Title
   ) {}
 
   ngOnInit(): void {
+    var title = "News With Code Example - Home"
+    this.titleService.setTitle(title)
+    this.metaService.addTags([
+      { name:'description',content:"Get latest news with code examples" },
+      { property: 'og:title', content: title }
+    ]);
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
       return false;
     };
