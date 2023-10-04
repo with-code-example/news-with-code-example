@@ -31,8 +31,6 @@ export class FeedCardComponent {
   ) {
   }
   
-
-
   ngOnInit() {
     if(this.item.image == ""){
       
@@ -125,9 +123,9 @@ export class FeedCardComponent {
   }
 
   copyShare(item: any){
-    let text = `${item.title} - ${environment.baseUrl}/read/${item.$id}, ${ item.link}`
+    let text = `${item.title} - ${environment.baseUrl}read/${item.$id}\n${ item.link}`
     navigator.clipboard.writeText(text);
-    this.alert.openSnackBar(" ", "Ok")
+    this.alert.openSnackBar("Copied to clipboard", "Ok")
   }
 
 }
