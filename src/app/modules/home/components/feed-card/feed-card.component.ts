@@ -124,4 +124,10 @@ export class FeedCardComponent {
     return encodeURIComponent(summary)
   }
 
+  copyShare(item: any){
+    let text = `${item.title} - ${environment.baseUrl}/read/${item.$id}, ${ item.link}`
+    navigator.clipboard.writeText(text);
+    this.alert.openSnackBar(" ", "Ok")
+  }
+
 }
