@@ -116,6 +116,9 @@ export class FeedCardComponent {
   shareLink(id: string) {
     return encodeURIComponent(`${environment.baseUrl}/read/${id}`)
   }
+  postLink(url: string): string {
+    return encodeURIComponent(url)
+  }
 
   shareSummary(summary: string) {
     return encodeURIComponent(summary)

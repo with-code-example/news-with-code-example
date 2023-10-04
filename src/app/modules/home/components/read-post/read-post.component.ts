@@ -18,7 +18,6 @@ export class ReadPostComponent implements OnInit{
   public post: any
   public loading: boolean = false;
 
-
   constructor(
     private apiService: ApiService,
     private route: ActivatedRoute,
@@ -29,9 +28,6 @@ export class ReadPostComponent implements OnInit{
   ){}
 
   ngOnInit(): void {
-
-    
-
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
       return false;
     };
